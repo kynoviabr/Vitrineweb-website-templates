@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Exemplo</title>
+  <link rel="stylesheet" href="../../_shared/css/base.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="container nav">
+      <a href="#" class="logo">Marca</a>
+      <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 data-animate>Título principal do site</h1>
+        <p data-animate>Subtítulo ou slogan da empresa vai aqui.</p>
+        <a href="#contato" class="btn" data-animate>Fale conosco</a>
+      </div>
+    </section>
+
+    <section id="sobre" class="section">
+      <div class="container">
+        <h2 data-animate>Sobre nós</h2>
+        <p data-animate>Texto sobre a empresa aqui.</p>
+      </div>
+    </section>
+
+    <section id="servicos" class="section section--alt">
+      <div class="container">
+        <h2 data-animate>Serviços</h2>
+        <div class="cards">
+          <div class="card" data-animate>
+            <h3>Serviço 1</h3>
+            <p>Descrição do serviço.</p>
+          </div>
+          <div class="card" data-animate>
+            <h3>Serviço 2</h3>
+            <p>Descrição do serviço.</p>
+          </div>
+          <div class="card" data-animate>
+            <h3>Serviço 3</h3>
+            <p>Descrição do serviço.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="section">
+      <div class="container text-center">
+        <h2 data-animate>Fale conosco</h2>
+        <p data-animate>Entre em contato para saber mais.</p>
+        <a href="mailto:contato@empresa.com" class="btn mt-lg" data-animate>contato@empresa.com</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 Empresa. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { animateOnScroll, initMobileMenu, initSmoothScroll } from '../../_shared/js/utils.js';
+    import { initTemplate } from './script.js';
+
+    animateOnScroll();
+    initMobileMenu();
+    initSmoothScroll();
+    initTemplate();
+  </script>
+</body>
+</html>

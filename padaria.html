@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maison Farinha — Padaria & Lanchonete Artesanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream:    #f8edd8;
+    --cream2:   #f0ddb8;
+    --gold:     #c8913a;
+    --gold2:    #e6b05a;
+    --brown:    #2a1505;
+    --brown2:   #3d1f08;
+    --brown3:   #5c3212;
+    --dark:     #120a02;
+    --text:     #1e0e03;
+    --muted:    #7a5535;
+    --white:    #fdf8f0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--dark);
+    color: var(--cream);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    position: fixed; z-index: 9999; pointer-events: none;
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width .25s, height .25s, opacity .25s;
+  }
+  .cursor-ring {
+    position: fixed; z-index: 9998; pointer-events: none;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform .12s ease-out, width .25s, height .25s, border-color .25s;
+    opacity: .6;
+  }
+  body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 20px; height: 20px; }
+  body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring {
+    width: 60px; height: 60px; border-color: var(--gold); opacity: .4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.6rem 4rem;
+    transition: background .4s, padding .4s;
+  }
+  nav.scrolled {
+    background: rgba(18,10,2,.92);
+    backdrop-filter: blur(14px);
+    padding: 1rem 4rem;
+    border-bottom: 1px solid rgba(200,145,58,.18);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 600; letter-spacing: .06em;
+    color: var(--gold2); text-decoration: none;
+    display: flex; flex-direction: column; line-height: 1;
+  }
+  .nav-logo span { font-size: .55rem; font-family: 'Jost'; font-weight: 300; letter-spacing: .4em; color: var(--muted); text-transform: uppercase; margin-top: .3rem; }
+  .nav-links { display: flex; gap: 2.8rem; list-style: none; }
+  .nav-links a {
+    font-size: .75rem; font-weight: 300; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--cream); text-decoration: none; opacity: .7;
+    transition: opacity .25s, color .25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; left: 0; bottom: -4px;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width .3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold2); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: .7rem; font-weight: 400; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--dark); background: var(--gold);
+    border: none; padding: .7rem 1.8rem; cursor: none;
+    transition: background .25s, transform .2s;
+  }
+  .nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  #hero {
+    position: relative; height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: flex-start;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 80% at 70% 50%, #3d1a04 0%, #1a0800 55%, #070300 100%);
+  }
+  /* Grain texture overlay */
+  .hero-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+    opacity: .45; pointer-events: none;
+  }
+  /* Decorative circle */
+  .hero-circle {
+    position: absolute; right: 8%; top: 50%; transform: translateY(-50%);
+    width: 520px; height: 520px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #5c2a08 0%, #2a0f02 60%, transparent 100%);
+    border: 1px solid rgba(200,145,58,.2);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .hero-circle::before {
+    content: ''; position: absolute; inset: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,145,58,.12);
+  }
+  .hero-circle::after {
+    content: ''; position: absolute; inset: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,145,58,.07);
+  }
+  @keyframes pulse { 0%,100%{transform:translateY(-50%) scale(1)} 50%{transform:translateY(-50%) scale(1.03)} }
+
+  /* Floating particles */
+  .particles { position: absolute; inset: 0; pointer-events: none; }
+  .p {
+    position: absolute; border-radius: 50%;
+    background: var(--gold); opacity: 0;
+    animation: float linear infinite;
+  }
+  @keyframes float {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    10%  { opacity: .6; }
+    90%  { opacity: .2; }
+    100% { opacity: 0; transform: translateY(-100vh) scale(.4); }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 4rem 0 7rem;
+    max-width: 720px;
+  }
+  .hero-label {
+    font-size: .65rem; font-weight: 300; letter-spacing: .5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp .8s .2s forwards;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-label::before { content: ''; display: block; width: 36px; height: 1px; background: var(--gold); }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    font-weight: 300; line-height: .95;
+    color: var(--cream);
+    opacity: 0; animation: fadeUp .9s .4s forwards;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold2);
+    display: block;
+  }
+  .hero-sub {
+    font-size: .85rem; font-weight: 200; letter-spacing: .12em; line-height: 1.9;
+    color: rgba(248,237,216,.55);
+    margin: 2rem 0 3rem;
+    max-width: 420px;
+    opacity: 0; animation: fadeUp .9s .6s forwards;
+  }
+  .hero-actions {
+    display: flex; gap: 1.4rem; align-items: center;
+    opacity: 0; animation: fadeUp .9s .8s forwards;
+  }
+  .btn-primary {
+    font-family: 'Jost'; font-size: .72rem; font-weight: 400;
+    letter-spacing: .28em; text-transform: uppercase; text-decoration: none;
+    color: var(--dark); background: var(--gold);
+    padding: 1rem 2.6rem; display: inline-block;
+    transition: background .25s, transform .2s, box-shadow .3s;
+    box-shadow: 0 0 0 0 rgba(200,145,58,0);
+  }
+  .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(200,145,58,.35); }
+  .btn-ghost {
+    font-size: .72rem; font-weight: 300; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--cream); text-decoration: none; opacity: .65;
+    display: flex; align-items: center; gap: .7rem;
+    transition: opacity .25s, gap .25s;
+  }
+  .btn-ghost::after { content: '→'; transition: transform .25s; }
+  .btn-ghost:hover { opacity: 1; gap: 1rem; }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 7rem;
+    display: flex; align-items: center; gap: 1rem;
+    font-size: .6rem; font-weight: 300; letter-spacing: .4em; text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0; animation: fadeUp .9s 1.2s forwards;
+  }
+  .scroll-line {
+    width: 1px; height: 52px; background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100%{opacity:.3} 50%{opacity:1} }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── MARQUEE STRIP ── */
+  .marquee-strip {
+    background: var(--gold); overflow: hidden;
+    padding: .9rem 0; white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-flex; gap: 0;
+    animation: marquee 28s linear infinite;
+  }
+  .marquee-track span {
+    font-size: .65rem; font-weight: 400; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--dark); padding: 0 2.4rem;
+  }
+  .marquee-track span.dot { letter-spacing: 0; opacity: .5; padding: 0; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 7rem 0; }
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 4rem; }
+
+  .section-label {
+    font-size: .6rem; font-weight: 300; letter-spacing: .5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--cream);
+  }
+  .section-title em { font-style: italic; color: var(--gold2); }
+
+  /* ── ABOUT ── */
+  #about { background: var(--brown); position: relative; overflow: hidden; }
+  #about::before {
+    content: ''; position: absolute; top: -120px; right: -80px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,145,58,.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: center; }
+  .about-image-wrap {
+    position: relative;
+  }
+  .about-img-frame {
+    width: 100%; aspect-ratio: 4/5;
+    background: linear-gradient(135deg, #3d1f08 0%, #1a0a02 100%);
+    position: relative; overflow: hidden;
+    border: 1px solid rgba(200,145,58,.15);
+  }
+  .about-img-frame::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg, transparent, transparent 24px,
+      rgba(200,145,58,.04) 24px, rgba(200,145,58,.04) 25px
+    );
+  }
+  /* Bread illustration (CSS art) */
+  .bread-art {
+    position: absolute; bottom: 10%; left: 50%; transform: translateX(-50%);
+    width: 200px; height: 200px;
+  }
+  .bread-body {
+    width: 200px; height: 140px; background: #c47a30;
+    border-radius: 100px 100px 40px 40px;
+    position: absolute; bottom: 0;
+    box-shadow: inset 0 -20px 40px rgba(0,0,0,.3), inset 0 10px 20px rgba(255,220,150,.15);
+  }
+  .bread-top {
+    width: 160px; height: 100px; background: #d4903a;
+    border-radius: 80px 80px 20px 20px;
+    position: absolute; bottom: 100px; left: 20px;
+    box-shadow: inset 0 6px 18px rgba(255,220,150,.2);
+  }
+  .bread-score { position: absolute; top: 30px; left: 40px; right: 40px; }
+  .bread-score::before, .bread-score::after {
+    content: ''; display: block; width: 60%; height: 2px;
+    background: rgba(0,0,0,.2); border-radius: 2px; margin: 8px auto;
+    transform: rotate(-10deg);
+  }
+  .wheat-lines {
+    position: absolute; bottom: 50%; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px;
+  }
+  .wheat-lines span {
+    display: block; width: 2px; height: 40px;
+    background: linear-gradient(to top, #c47a30, #8b5020);
+    border-radius: 2px;
+  }
+  .about-floater {
+    position: absolute; bottom: -30px; right: -30px;
+    width: 160px; height: 160px;
+    border: 1px solid rgba(200,145,58,.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-style: italic;
+    color: var(--gold2);
+    background: var(--dark);
+    flex-direction: column; gap: .5rem; text-align: center;
+    padding: 1.2rem;
+  }
+  .about-floater strong { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 300; font-style: normal; color: var(--gold); display: block; }
+  .about-text p {
+    font-size: .92rem; font-weight: 200; line-height: 2; color: rgba(248,237,216,.6);
+    margin-bottom: 1.6rem;
+  }
+  .about-stats { display: flex; gap: 3rem; margin-top: 3rem; padding-top: 3rem; border-top: 1px solid rgba(200,145,58,.12); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--gold);
+    display: block; line-height: 1;
+  }
+  .stat-lbl { font-size: .65rem; letter-spacing: .3em; text-transform: uppercase; color: var(--muted); margin-top: .4rem; }
+
+  /* ── MENU ── */
+  #menu { background: var(--dark); }
+  .menu-header { text-align: center; margin-bottom: 5rem; }
+  .menu-header .section-label { justify-content: center; }
+  .menu-header .section-label::before { display: none; }
+  .menu-tabs {
+    display: flex; justify-content: center; gap: 0;
+    margin-top: 3rem;
+    border-bottom: 1px solid rgba(200,145,58,.15);
+  }
+  .tab-btn {
+    font-family: 'Jost'; font-size: .68rem; font-weight: 300; letter-spacing: .35em; text-transform: uppercase;
+    background: none; border: none; border-bottom: 2px solid transparent;
+    color: rgba(248,237,216,.4); padding: .8rem 2rem;
+    cursor: none; transition: color .25s, border-color .25s;
+    margin-bottom: -1px;
+  }
+  .tab-btn.active, .tab-btn:hover { color: var(--gold2); border-color: var(--gold); }
+
+  .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; margin-top: .2rem; }
+  .menu-card {
+    background: var(--brown); padding: 2.4rem;
+    border: 1px solid rgba(200,145,58,.06);
+    position: relative; overflow: hidden;
+    transition: border-color .3s, transform .3s;
+    display: none;
+  }
+  .menu-card.show { display: block; }
+  .menu-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200,145,58,.05) 0%, transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .menu-card:hover { border-color: rgba(200,145,58,.25); transform: translateY(-4px); }
+  .menu-card:hover::before { opacity: 1; }
+  .card-emoji { font-size: 1.8rem; margin-bottom: 1.2rem; display: block; }
+  .card-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400;
+    color: var(--cream); margin-bottom: .5rem;
+  }
+  .card-desc { font-size: .78rem; font-weight: 200; color: rgba(248,237,216,.45); line-height: 1.8; margin-bottom: 1.4rem; }
+  .card-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300; color: var(--gold); }
+  .card-tag {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    font-size: .55rem; letter-spacing: .35em; text-transform: uppercase;
+    background: var(--gold); color: var(--dark); padding: .3rem .8rem;
+  }
+
+  /* ── FEATURED ── */
+  #featured {
+    background: linear-gradient(180deg, var(--dark) 0%, var(--brown) 100%);
+    position: relative; overflow: hidden;
+  }
+  .featured-inner { display: grid; grid-template-columns: 1fr 1.4fr; gap: 6rem; align-items: center; }
+  .featured-text .section-title { margin-bottom: 1.5rem; }
+  .featured-text p { font-size: .88rem; font-weight: 200; color: rgba(248,237,216,.5); line-height: 2; margin-bottom: 2.5rem; }
+  .features-list { list-style: none; margin-bottom: 3rem; }
+  .features-list li {
+    display: flex; align-items: baseline; gap: 1rem;
+    font-size: .82rem; font-weight: 300; color: rgba(248,237,216,.6);
+    padding: .7rem 0; border-bottom: 1px solid rgba(200,145,58,.08);
+  }
+  .features-list li::before { content: '✦'; color: var(--gold); font-size: .5rem; flex-shrink: 0; }
+
+  .featured-visual { position: relative; }
+  .featured-big-card {
+    background: var(--brown2); border: 1px solid rgba(200,145,58,.12);
+    padding: 3.5rem; position: relative; overflow: hidden;
+    aspect-ratio: 3/4;
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .featured-big-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(18,10,2,.9) 0%, transparent 60%);
+  }
+  /* Croissant CSS art */
+  .croissant { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); }
+  .cr-body {
+    width: 180px; height: 80px;
+    background: linear-gradient(135deg, #d4903a 0%, #a06020 100%);
+    border-radius: 50%;
+    position: relative;
+    transform: rotate(-20deg);
+    box-shadow: inset 0 -10px 20px rgba(0,0,0,.3), 6px 6px 20px rgba(0,0,0,.4);
+  }
+  .cr-body::before {
+    content: ''; position: absolute; left: -50px; top: 10px;
+    width: 80px; height: 50px;
+    background: linear-gradient(135deg, #b87020 0%, #8a4c10 100%);
+    border-radius: 0 50% 50% 0;
+    transform: rotate(10deg);
+    box-shadow: inset 0 -6px 12px rgba(0,0,0,.2);
+  }
+  .cr-body::after {
+    content: ''; position: absolute; right: -50px; top: 10px;
+    width: 80px; height: 50px;
+    background: linear-gradient(135deg, #b87020 0%, #8a4c10 100%);
+    border-radius: 50% 0 0 50%;
+    transform: rotate(-10deg);
+    box-shadow: inset 0 -6px 12px rgba(0,0,0,.2);
+  }
+  .cr-shine {
+    position: absolute; top: 12px; left: 30px;
+    width: 60px; height: 20px;
+    background: rgba(255,220,150,.2);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+  }
+  .fcard-content { position: relative; z-index: 1; }
+  .fcard-tag { font-size: .58rem; letter-spacing: .4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; display: block; }
+  .fcard-name { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--cream); margin-bottom: .8rem; }
+  .fcard-desc { font-size: .8rem; font-weight: 200; color: rgba(248,237,216,.5); line-height: 1.8; margin-bottom: 1.5rem; }
+  .fcard-price { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--gold2); }
+  .small-cards { position: absolute; right: -80px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 1rem; width: 200px; }
+  .small-card {
+    background: var(--brown); border: 1px solid rgba(200,145,58,.12);
+    padding: 1.4rem; cursor: none;
+    transition: border-color .25s, transform .25s;
+  }
+  .small-card:hover { border-color: rgba(200,145,58,.35); transform: translateX(-4px); }
+  .sc-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); margin-bottom: .3rem; }
+  .sc-price { font-size: .75rem; color: var(--gold); font-weight: 300; }
+
+  /* ── SCHEDULE ── */
+  #schedule { background: var(--brown); }
+  .schedule-grid { display: grid; grid-template-columns: 1fr 1px 1fr 1px 1fr; gap: 0; }
+  .schedule-divider { background: rgba(200,145,58,.12); }
+  .schedule-item { padding: 3rem; }
+  .schedule-day { font-size: .65rem; letter-spacing: .4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+  .schedule-time { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--cream); line-height: 1; }
+  .schedule-label { font-size: .75rem; font-weight: 200; color: var(--muted); margin-top: .8rem; }
+  .schedule-features { margin-top: 1.8rem; list-style: none; }
+  .schedule-features li { font-size: .78rem; font-weight: 200; color: rgba(248,237,216,.45); padding: .3rem 0; padding-left: 1rem; position: relative; }
+  .schedule-features li::before { content: '—'; position: absolute; left: 0; color: var(--gold); opacity: .5; font-size: .6rem; top: .35rem; }
+  .schedule-banner {
+    margin-top: 5rem;
+    background: var(--gold);
+    padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .banner-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--dark); }
+  .banner-text span { font-style: italic; }
+  .banner-cta {
+    font-size: .68rem; letter-spacing: .35em; text-transform: uppercase;
+    background: var(--dark); color: var(--gold);
+    border: none; padding: .9rem 2rem; cursor: none;
+    transition: background .25s;
+  }
+  .banner-cta:hover { background: var(--brown3); }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--dark); }
+  .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 280px 220px;
+    gap: 4px;
+  }
+  .gal-item {
+    overflow: hidden; position: relative;
+    background: var(--brown); cursor: none;
+  }
+  .gal-item:first-child { grid-row: 1 / 3; }
+  .gal-inner {
+    position: absolute; inset: 0;
+    transition: transform .6s ease;
+  }
+  .gal-item:hover .gal-inner { transform: scale(1.06); }
+  .gal-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(18,10,2,.7) 0%, transparent 60%);
+    opacity: 0; transition: opacity .35s;
+    display: flex; align-items: flex-end; padding: 1.5rem;
+  }
+  .gal-item:hover .gal-overlay { opacity: 1; }
+  .gal-lbl { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--cream); }
+
+  /* "Image" placeholders with beautiful CSS */
+  .gal-a { background: linear-gradient(135deg, #4a2008 0%, #1e0a02 100%); }
+  .gal-a::before { content: '🥐'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 4rem; opacity: .5; }
+  .gal-b { background: linear-gradient(135deg, #3a1506 0%, #180800 100%); }
+  .gal-b::before { content: '🍞'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: .5; }
+  .gal-c { background: linear-gradient(135deg, #3d1a06 0%, #1a0900 100%); }
+  .gal-c::before { content: '☕'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: .5; }
+  .gal-d { background: linear-gradient(135deg, #2a1005 0%, #120500 100%); }
+  .gal-d::before { content: '🧁'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: .5; }
+  .gal-e { background: linear-gradient(135deg, #401808 0%, #1c0900 100%); }
+  .gal-e::before { content: '🥐'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 3rem; opacity: .5; filter: hue-rotate(30deg); }
+
+  /* ── DEPOIMENTOS ── */
+  #reviews { background: var(--brown2); position: relative; overflow: hidden; }
+  #reviews::before {
+    content: '"'; position: absolute; top: -2rem; left: 3rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 22rem; font-weight: 700;
+    color: rgba(200,145,58,.04); line-height: 1; pointer-events: none;
+    user-select: none;
+  }
+  .reviews-inner { display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start; }
+  .reviews-text .section-title { margin-bottom: 1.5rem; }
+  .reviews-text p { font-size: .85rem; font-weight: 200; color: rgba(248,237,216,.45); line-height: 1.9; }
+  .reviews-grid { display: flex; flex-direction: column; gap: 1.5px; }
+  .review-card {
+    background: rgba(255,255,255,.02); border: 1px solid rgba(200,145,58,.08);
+    padding: 2.2rem; position: relative;
+    transition: border-color .3s, background .3s;
+  }
+  .review-card:hover { border-color: rgba(200,145,58,.2); background: rgba(255,255,255,.04); }
+  .review-stars { color: var(--gold); font-size: .75rem; letter-spacing: .2em; margin-bottom: 1rem; }
+  .review-text {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-style: italic;
+    font-weight: 300; color: var(--cream); line-height: 1.6; margin-bottom: 1.4rem;
+  }
+  .review-author { display: flex; align-items: center; gap: 1rem; }
+  .author-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--brown3));
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 500; color: var(--dark);
+    flex-shrink: 0;
+  }
+  .author-name { font-size: .75rem; font-weight: 400; color: var(--cream); }
+  .author-since { font-size: .62rem; font-weight: 200; color: var(--muted); margin-top: .15rem; }
+
+  /* ── CONTATO ── */
+  #contact { background: var(--dark); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .contact-info .section-title { margin-bottom: 2rem; }
+  .contact-detail { display: flex; gap: 1.2rem; align-items: flex-start; margin-bottom: 1.8rem; }
+  .detail-icon {
+    width: 42px; height: 42px; flex-shrink: 0;
+    border: 1px solid rgba(200,145,58,.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem; color: var(--gold);
+  }
+  .detail-lbl { font-size: .6rem; letter-spacing: .4em; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+  .detail-val { font-size: .88rem; font-weight: 300; color: rgba(248,237,216,.7); }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: .5rem; }
+  .form-label { font-size: .58rem; letter-spacing: .4em; text-transform: uppercase; color: var(--muted); }
+  .form-input, .form-textarea {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(200,145,58,.12);
+    padding: .9rem 1.2rem; color: var(--cream);
+    font-family: 'Jost'; font-size: .85rem; font-weight: 200;
+    outline: none; transition: border-color .25s, background .25s;
+    resize: none;
+  }
+  .form-input:focus, .form-textarea:focus {
+    border-color: rgba(200,145,58,.4); background: rgba(255,255,255,.06);
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(248,237,216,.2); }
+  .form-textarea { height: 120px; }
+  .form-submit {
+    font-family: 'Jost'; font-size: .7rem; font-weight: 400; letter-spacing: .35em; text-transform: uppercase;
+    background: var(--gold); color: var(--dark); border: none;
+    padding: 1.1rem 2.4rem; cursor: none; align-self: flex-start;
+    transition: background .25s, transform .2s;
+  }
+  .form-submit:hover { background: var(--gold2); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--brown); border-top: 1px solid rgba(200,145,58,.1);
+    padding: 4rem 0 2rem;
+  }
+  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+  .footer-brand .nav-logo { font-size: 1.8rem; margin-bottom: 1rem; }
+  .footer-brand p { font-size: .8rem; font-weight: 200; color: rgba(248,237,216,.35); line-height: 1.9; max-width: 280px; margin-top: .8rem; }
+  .footer-col h4 { font-size: .58rem; letter-spacing: .45em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.4rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: .7rem; }
+  .footer-col ul a { font-size: .8rem; font-weight: 200; color: rgba(248,237,216,.4); text-decoration: none; transition: color .25s; }
+  .footer-col ul a:hover { color: var(--gold2); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid rgba(200,145,58,.08); }
+  .footer-copy { font-size: .65rem; font-weight: 200; color: rgba(248,237,216,.25); letter-spacing: .15em; }
+  .social-links { display: flex; gap: 1rem; }
+  .social-link {
+    width: 34px; height: 34px; border: 1px solid rgba(200,145,58,.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; color: rgba(248,237,216,.4); text-decoration: none;
+    transition: border-color .25s, color .25s, transform .25s;
+  }
+  .social-link:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .9s ease, transform .9s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+  .reveal-delay-4 { transition-delay: .4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    nav.scrolled { padding: .8rem 2rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hero-content { padding: 0 2rem 0 3rem; }
+    .hero-scroll { left: 3rem; }
+    .container { padding: 0 2rem; }
+    .about-grid, .featured-inner, .contact-grid, .reviews-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .menu-grid { grid-template-columns: 1fr 1fr; }
+    .schedule-grid { grid-template-columns: 1fr; }
+    .schedule-divider { display: none; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gal-item:first-child { grid-row: auto; }
+    .small-cards { display: none; }
+    .hero-circle { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Maison Farinha<span>Padaria & Lanchonete Artesanal</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Nossa História</a></li>
+    <li><a href="#menu">Cardápio</a></li>
+    <li><a href="#gallery">Galeria</a></li>
+    <li><a href="#contact">Contato</a></li>
+  </ul>
+  <button class="nav-cta">Fazer Pedido</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-circle"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-label">Desde 2008 · Artesanal & Afeto</div>
+    <h1 class="hero-title">
+      O pão que<br><em>aquece a alma</em>
+    </h1>
+    <p class="hero-sub">
+      Feito com farinha selecionada, fermentação natural e a dedicação de quem coloca amor em cada forma que sai do forno.
+    </p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn-primary">Ver Cardápio</a>
+      <a href="#about" class="btn-ghost">Nossa história</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Descer
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>Pães Artesanais</span><span class="dot">✦</span>
+    <span>Fermentação Natural</span><span class="dot">✦</span>
+    <span>Croissants Folhados</span><span class="dot">✦</span>
+    <span>Cafés Especiais</span><span class="dot">✦</span>
+    <span>Salgados Frescos</span><span class="dot">✦</span>
+    <span>Doces da Casa</span><span class="dot">✦</span>
+    <span>Lanches Gourmet</span><span class="dot">✦</span>
+    <span>Encomendas</span><span class="dot">✦</span>
+    <span>Pães Artesanais</span><span class="dot">✦</span>
+    <span>Fermentação Natural</span><span class="dot">✦</span>
+    <span>Croissants Folhados</span><span class="dot">✦</span>
+    <span>Cafés Especiais</span><span class="dot">✦</span>
+    <span>Salgados Frescos</span><span class="dot">✦</span>
+    <span>Doces da Casa</span><span class="dot">✦</span>
+    <span>Lanches Gourmet</span><span class="dot">✦</span>
+    <span>Encomendas</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-wrap reveal">
+        <div class="about-img-frame">
+          <div class="bread-art">
+            <div class="wheat-lines">
+              <span style="height:35px"></span><span style="height:45px"></span><span style="height:50px"></span>
+              <span style="height:45px"></span><span style="height:35px"></span>
+            </div>
+            <div class="bread-top"><div class="bread-score"></div></div>
+            <div class="bread-body"></div>
+          </div>
+        </div>
+        <div class="about-floater">
+          <strong>16+</strong>
+          anos aquecendo<br>corações
+        </div>
+      </div>
+      <div class="about-text">
+        <div class="section-label reveal">Nossa História</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Uma herança de<br><em>sabor e afeto</em>
+        </h2>
+        <p class="reveal reveal-delay-2">
+          A Maison Farinha nasceu na cozinha da dona Eulália, que acordava às 3h da manhã para que o pão chegasse quentinho na mesa de cada família do bairro. Hoje, seus netos mantêm viva essa tradição — com técnicas modernas e o mesmo amor de sempre.
+        </p>
+        <p class="reveal reveal-delay-3">
+          Usamos fermento natural cultivado há mais de uma década, farinhas selecionadas de moinhos parceiros e ingredientes frescos que chegam toda manhã. Cada produto que sai do nosso forno carrega a história de quem o fez.
+        </p>
+        <div class="about-stats reveal reveal-delay-4">
+          <div>
+            <span class="stat-num">48+</span>
+            <div class="stat-lbl">Produtos no cardápio</div>
+          </div>
+          <div>
+            <span class="stat-num">3h</span>
+            <div class="stat-lbl">Acordamos todo dia</div>
+          </div>
+          <div>
+            <span class="stat-num">100%</span>
+            <div class="stat-lbl">Ingredientes frescos</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="container">
+    <div class="menu-header">
+      <div class="section-label">Cardápio</div>
+      <h2 class="section-title">Feito com <em>cuidado</em>, escolhido<br>com carinho</h2>
+      <div class="menu-tabs">
+        <button class="tab-btn active" data-cat="paes">🍞 Pães</button>
+        <button class="tab-btn" data-cat="lanches">🥪 Lanches</button>
+        <button class="tab-btn" data-cat="doces">🧁 Doces</button>
+        <button class="tab-btn" data-cat="bebidas">☕ Bebidas</button>
+      </div>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+
+      <!-- PÃES -->
+      <div class="menu-card show" data-cat="paes">
+        <span class="card-emoji">🍞</span>
+        <div class="card-name">Pão de Fermentação Natural</div>
+        <div class="card-desc">Assado lentamente com levain artesanal. Casca crocante, miolo macio e sabor inigualável.</div>
+        <div class="card-price">R$ 28,90</div>
+        <div class="card-tag">Mais Vendido</div>
+      </div>
+      <div class="menu-card show" data-cat="paes">
+        <span class="card-emoji">🥐</span>
+        <div class="card-name">Croissant Folhado</div>
+        <div class="card-desc">Manteiga francesa importada, 72h de preparo. Folhas finas e douradas que derretem na boca.</div>
+        <div class="card-price">R$ 14,90</div>
+        <div class="card-tag">Destaque</div>
+      </div>
+      <div class="menu-card show" data-cat="paes">
+        <span class="card-emoji">🫓</span>
+        <div class="card-name">Focaccia Alecrim</div>
+        <div class="card-desc">Temperada com azeite extra virgem, alecrim fresco e flor de sal. Assada na pedra refratária.</div>
+        <div class="card-price">R$ 22,50</div>
+      </div>
+      <div class="menu-card show" data-cat="paes">
+        <span class="card-emoji">🍞</span>
+        <div class="card-name">Pão de Centeio</div>
+        <div class="card-desc">Rico em fibras, sabor encorpado e levemente ácido. Perfeito para o café da manhã.</div>
+        <div class="card-price">R$ 25,90</div>
+      </div>
+      <div class="menu-card show" data-cat="paes">
+        <span class="card-emoji">🧀</span>
+        <div class="card-name">Pão de Queijo Artesanal</div>
+        <div class="card-desc">Polvilho azedo e queijo da canastra mineiro. Casquinha crocante, por dentro é puro amor.</div>
+        <div class="card-price">R$ 9,90</div>
+      </div>
+      <div class="menu-card show" data-cat="paes">
+        <span class="card-emoji">🫓</span>
+        <div class="card-name">Baguete Rústica</div>
+        <div class="card-desc">Estilo parisiense com farinha de alta qualidade. Crocante por fora, aerado e macio por dentro.</div>
+        <div class="card-price">R$ 12,90</div>
+      </div>
+
+      <!-- LANCHES -->
+      <div class="menu-card" data-cat="lanches" style="display:none">
+        <span class="card-emoji">🥪</span>
+        <div class="card-name">Bauru da Casa</div>
+        <div class="card-desc">Rosbife, queijo prato derretido, tomate, pepino e molho especial no pão francês quentinho.</div>
+        <div class="card-price">R$ 34,90</div>
+        <div class="card-tag">Favorito</div>
+      </div>
+      <div class="menu-card" data-cat="lanches" style="display:none">
+        <span class="card-emoji">🥐</span>
+        <div class="card-name">Croissant Presunto e Brie</div>
+        <div class="card-desc">Croissant folhado recheado com presunto artesanal e queijo brie fundido. Sofisticado e delicioso.</div>
+        <div class="card-price">R$ 26,90</div>
+        <div class="card-tag">Destaque</div>
+      </div>
+      <div class="menu-card" data-cat="lanches" style="display:none">
+        <span class="card-emoji">🥗</span>
+        <div class="card-name">Wrap Mediterrâneo</div>
+        <div class="card-desc">Frango grelhado, falafel, homus, azeitona e folhas frescas. Leve e nutritivo.</div>
+        <div class="card-price">R$ 29,90</div>
+      </div>
+      <div class="menu-card" data-cat="lanches" style="display:none">
+        <span class="card-emoji">🧆</span>
+        <div class="card-name">Coxinha de Catupiry</div>
+        <div class="card-desc">Massa leve e crocante, recheio generoso de frango desfiado com catupiry. Saindo do forno.</div>
+        <div class="card-price">R$ 12,90</div>
+      </div>
+      <div class="menu-card" data-cat="lanches" style="display:none">
+        <span class="card-emoji">🥬</span>
+        <div class="card-name">Misto Quente Especial</div>
+        <div class="card-desc">Pão de fermentação natural, queijo gouda e presunto serrano. Tostado na chapa com manteiga.</div>
+        <div class="card-price">R$ 22,90</div>
+      </div>
+      <div class="menu-card" data-cat="lanches" style="display:none">
+        <span class="card-emoji">🫔</span>
+        <div class="card-name">Tapioca Gourmet</div>
+        <div class="card-desc">Com opção de recheios doces ou salgados. Nossa tapioca é preparada na hora com goma fresca.</div>
+        <div class="card-price">R$ 18,90</div>
+      </div>
+
+      <!-- DOCES -->
+      <div class="menu-card" data-cat="doces" style="display:none">
+        <span class="card-emoji">🧁</span>
+        <div class="card-name">Cupcake Red Velvet</div>
+        <div class="card-desc">Massa aveludada com cream cheese frosting. Decorado artesanalmente pela nossa equipe.</div>
+        <div class="card-price">R$ 16,90</div>
+        <div class="card-tag">Novo</div>
+      </div>
+      <div class="menu-card" data-cat="doces" style="display:none">
+        <span class="card-emoji">🍮</span>
+        <div class="card-name">Pudim de Leite Condensado</div>
+        <div class="card-desc">Receita clássica da dona Eulália. Textura cremosa e calda de caramelo na medida certa.</div>
+        <div class="card-price">R$ 14,90</div>
+        <div class="card-tag">Clássico</div>
+      </div>
+      <div class="menu-card" data-cat="doces" style="display:none">
+        <span class="card-emoji">🥐</span>
+        <div class="card-name">Pain au Chocolat</div>
+        <div class="card-desc">Croissant folhado com interior de chocolate amargo belga 70%. Servido morno.</div>
+        <div class="card-price">R$ 16,90</div>
+      </div>
+      <div class="menu-card" data-cat="doces" style="display:none">
+        <span class="card-emoji">🍰</span>
+        <div class="card-name">Fatia de Bolo do Dia</div>
+        <div class="card-desc">O bolo muda todo dia! Pergunte ao atendente qual saiu do forno esta manhã.</div>
+        <div class="card-price">R$ 12,90</div>
+      </div>
+      <div class="menu-card" data-cat="doces" style="display:none">
+        <span class="card-emoji">🍪</span>
+        <div class="card-name">Cookie de Chocolate</div>
+        <div class="card-desc">Grande, crocante por fora e macio por dentro. Gotas de chocolate belga em cada mordida.</div>
+        <div class="card-price">R$ 10,90</div>
+      </div>
+      <div class="menu-card" data-cat="doces" style="display:none">
+        <span class="card-emoji">🥧</span>
+        <div class="card-name">Torta de Limão Siciliano</div>
+        <div class="card-desc">Base amanteigada, recheio cremoso de limão e merengue tostado. Refrescante e elegante.</div>
+        <div class="card-price">R$ 18,90</div>
+      </div>
+
+      <!-- BEBIDAS -->
+      <div class="menu-card" data-cat="bebidas" style="display:none">
+        <span class="card-emoji">☕</span>
+        <div class="card-name">Espresso Maison</div>
+        <div class="card-desc">Blend exclusivo de cafés especiais brasileiros. Extraído em máquina italiana de alta pressão.</div>
+        <div class="card-price">R$ 8,90</div>
+        <div class="card-tag">Especial</div>
+      </div>
+      <div class="menu-card" data-cat="bebidas" style="display:none">
+        <span class="card-emoji">🥛</span>
+        <div class="card-name">Cappuccino Artesanal</div>
+        <div class="card-desc">Espresso duplo, leite vaporizado e espuma densa. Arte latte incluída em cada xícara.</div>
+        <div class="card-price">R$ 14,90</div>
+        <div class="card-tag">Favorito</div>
+      </div>
+      <div class="menu-card" data-cat="bebidas" style="display:none">
+        <span class="card-emoji">🍵</span>
+        <div class="card-name">Chá de Ervas da Casa</div>
+        <div class="card-desc">Blend proprietário de camomila, hortelã e erva-cidreira. Cultivados em nossa horta.</div>
+        <div class="card-price">R$ 9,90</div>
+      </div>
+      <div class="menu-card" data-cat="bebidas" style="display:none">
+        <span class="card-emoji">🧃</span>
+        <div class="card-name">Suco Natural Prensado</div>
+        <div class="card-desc">Frutas selecionadas prensadas na hora. Laranja, manga ou misto tropical.</div>
+        <div class="card-price">R$ 12,90</div>
+      </div>
+      <div class="menu-card" data-cat="bebidas" style="display:none">
+        <span class="card-emoji">🍫</span>
+        <div class="card-name">Chocolate Quente Belga</div>
+        <div class="card-desc">Chocolate 70% cacau derretido no leite integral. Serve com chantilly artesanal.</div>
+        <div class="card-price">R$ 16,90</div>
+      </div>
+      <div class="menu-card" data-cat="bebidas" style="display:none">
+        <span class="card-emoji">🧋</span>
+        <div class="card-name">Latte de Baunilha Gelado</div>
+        <div class="card-desc">Espresso sobre leite gelado com extrato natural de baunilha. Perfeito para os dias quentes.</div>
+        <div class="card-price">R$ 18,90</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section id="featured">
+  <div class="container">
+    <div class="featured-inner">
+      <div class="featured-text reveal">
+        <div class="section-label">Em Destaque</div>
+        <h2 class="section-title">O queridinho da<br><em>temporada</em></h2>
+        <p>Nosso croissant folhado conquistou o coração de quem prova. Feito com 72 horas de preparo, manteiga importada e assado na temperatura exata — é o café da manhã perfeito.</p>
+        <ul class="features-list">
+          <li>Manteiga francesa extra-seca (84% gordura)</li>
+          <li>72 horas de descanso em câmara fria</li>
+          <li>Forno combinado a 200°C por 18 minutos</li>
+          <li>Servido quentinho das 6h às 11h</li>
+        </ul>
+        <a href="#" class="btn-primary">Pedir agora</a>
+      </div>
+      <div class="featured-visual reveal reveal-delay-2">
+        <div class="featured-big-card">
+          <div class="croissant">
+            <div class="cr-body">
+              <div class="cr-shine"></div>
+            </div>
+          </div>
+          <div class="fcard-content">
+            <span class="fcard-tag">✦ Destaque da Semana</span>
+            <div class="fcard-name">Croissant Folhado<br>Manteiga Francesa</div>
+            <div class="fcard-desc">72h de preparo · Assado fresco · Servido quentinho</div>
+            <div class="fcard-price">R$ 14,90</div>
+          </div>
+        </div>
+        <div class="small-cards">
+          <div class="small-card">
+            <div class="sc-name">Pain au Chocolat</div>
+            <div class="sc-price">R$ 16,90</div>
+          </div>
+          <div class="small-card">
+            <div class="sc-name">Croissant de Amêndoas</div>
+            <div class="sc-price">R$ 18,90</div>
+          </div>
+          <div class="small-card">
+            <div class="sc-name">Croissant Presunto & Brie</div>
+            <div class="sc-price">R$ 26,90</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="container">
+    <div style="margin-bottom: 4rem;">
+      <div class="section-label reveal">Funcionamento</div>
+      <h2 class="section-title reveal reveal-delay-1">Aqui o forno <em>nunca apaga</em></h2>
+    </div>
+    <div class="schedule-grid">
+      <div class="schedule-item reveal">
+        <div class="schedule-day">Segunda a Sexta</div>
+        <div class="schedule-time">06h — 21h</div>
+        <div class="schedule-label">Café da manhã, almoço e lanche da tarde</div>
+        <ul class="schedule-features">
+          <li>Pães saem do forno às 6h, 10h e 14h</li>
+          <li>Cardápio completo disponível</li>
+          <li>Happy hour das 17h às 19h</li>
+        </ul>
+      </div>
+      <div class="schedule-divider"></div>
+      <div class="schedule-item reveal reveal-delay-1">
+        <div class="schedule-day">Sábado</div>
+        <div class="schedule-time">06h — 18h</div>
+        <div class="schedule-label">Especial de fim de semana</div>
+        <ul class="schedule-features">
+          <li>Brunch especial das 8h às 12h</li>
+          <li>Lançamento de produtos especiais</li>
+          <li>Retirada de encomendas</li>
+        </ul>
+      </div>
+      <div class="schedule-divider"></div>
+      <div class="schedule-item reveal reveal-delay-2">
+        <div class="schedule-day">Domingo</div>
+        <div class="schedule-time">07h — 14h</div>
+        <div class="schedule-label">Domingo especial em família</div>
+        <ul class="schedule-features">
+          <li>Pão especial de domingo</li>
+          <li>Café colonial com hora marcada</li>
+          <li>Cardápio reduzido e exclusivo</li>
+        </ul>
+      </div>
+    </div>
+    <div class="schedule-banner reveal">
+      <div class="banner-text">Encomendas com <span>48h de antecedência</span> — bolos, pães especiais e mesas de café.</div>
+      <button class="banner-cta">Fazer Encomenda</button>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="gallery-header reveal">
+      <div>
+        <div class="section-label">Galeria</div>
+        <h2 class="section-title">Feito pra <em>deleitar</em><br>os olhos também</h2>
+      </div>
+      <a href="#" class="btn-ghost">Ver mais fotos</a>
+    </div>
+    <div class="gallery-grid reveal reveal-delay-1">
+      <div class="gal-item gal-a">
+        <div class="gal-inner gal-a"></div>
+        <div class="gal-overlay"><div class="gal-lbl">Croissants do Dia</div></div>
+      </div>
+      <div class="gal-item gal-b">
+        <div class="gal-inner gal-b"></div>
+        <div class="gal-overlay"><div class="gal-lbl">Pão Artesanal</div></div>
+      </div>
+      <div class="gal-item gal-c">
+        <div class="gal-inner gal-c"></div>
+        <div class="gal-overlay"><div class="gal-lbl">Café Especial</div></div>
+      </div>
+      <div class="gal-item gal-d">
+        <div class="gal-inner gal-d"></div>
+        <div class="gal-overlay"><div class="gal-lbl">Cupcakes</div></div>
+      </div>
+      <div class="gal-item gal-e">
+        <div class="gal-inner gal-e"></div>
+        <div class="gal-overlay"><div class="gal-lbl">Pain au Chocolat</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="container">
+    <div class="reviews-inner">
+      <div class="reviews-text reveal">
+        <div class="section-label">Depoimentos</div>
+        <h2 class="section-title">O que nossos<br><em>clientes</em> dizem</h2>
+        <p style="margin-top:1.5rem">Mais de 4.800 avaliações 5 estrelas e uma legião de clientes que se tornaram família. Isso é o que mais nos orgulha.</p>
+        <div style="margin-top:3rem">
+          <div class="stat-num" style="font-family:'Cormorant Garamond';font-size:4rem;font-weight:300;color:var(--gold)">4.9</div>
+          <div style="color:var(--gold);font-size:1.1rem;margin:.4rem 0">★★★★★</div>
+          <div class="stat-lbl">Média no Google · +4.800 avaliações</div>
+        </div>
+      </div>
+      <div class="reviews-grid reveal reveal-delay-1">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"O croissant daqui mudou minha vida. Sério. Agora toda manhã meu dia começa melhor, e eu moro a 40 minutos. Vale cada quilômetro."</div>
+          <div class="review-author">
+            <div class="author-avatar">MR</div>
+            <div>
+              <div class="author-name">Mariana Rocha</div>
+              <div class="author-since">Cliente desde 2019</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"Fiz encomenda do bolo de aniversário e entregou além do esperado. A equipe é atenciosa, o produto é impecável e o preço é justo. 10/10!"</div>
+          <div class="review-author">
+            <div class="author-avatar">TL</div>
+            <div>
+              <div class="author-name">Thiago Lima</div>
+              <div class="author-since">Cliente desde 2021</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"O pão de fermentação natural é o melhor que já comi na vida. E já viajei pra França! Aqui é mais gostoso, sem dúvida. Família incrível."</div>
+          <div class="review-author">
+            <div class="author-avatar">AF</div>
+            <div>
+              <div class="author-name">Ana Figueiredo</div>
+              <div class="author-since">Cliente desde 2015</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <div class="section-label">Contato</div>
+        <h2 class="section-title">Venha nos<br><em>visitar</em></h2>
+        <div style="margin-top:2.5rem">
+          <div class="contact-detail">
+            <div class="detail-icon">📍</div>
+            <div>
+              <div class="detail-lbl">Endereço</div>
+              <div class="detail-val">Rua das Acácias, 248 — Vila Madalena<br>São Paulo · SP · 05434-000</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">📞</div>
+            <div>
+              <div class="detail-lbl">Telefone & WhatsApp</div>
+              <div class="detail-val">(11) 94567-8910</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">✉</div>
+            <div>
+              <div class="detail-lbl">E-mail</div>
+              <div class="detail-val">ola@maisonfarinha.com.br</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="detail-icon">📸</div>
+            <div>
+              <div class="detail-lbl">Instagram</div>
+              <div class="detail-val">@maisonfarinha</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div style="margin-bottom:2rem">
+          <div class="section-label" style="margin-bottom:.5rem">Fale Conosco</div>
+          <p style="font-size:.82rem;font-weight:200;color:rgba(248,237,216,.45);line-height:1.8">Encomendas, eventos, parcerias ou só para dizer que o pão estava delicioso — adoramos ouvir de vocês.</p>
+        </div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Nome</label>
+              <input type="text" class="form-input" placeholder="Seu nome" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">E-mail</label>
+              <input type="email" class="form-input" placeholder="seu@email.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assunto</label>
+            <input type="text" class="form-input" placeholder="Encomenda, parceria, elogio..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mensagem</label>
+            <textarea class="form-textarea" placeholder="Conte-nos mais..."></textarea>
+          </div>
+          <button class="form-submit">Enviar Mensagem →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">Maison Farinha<span>Padaria & Lanchonete Artesanal</span></a>
+        <p>Desde 2008, acordamos às 3h da manhã para que o seu dia comece com o melhor sabor. Feito com farinha, tempo e muito amor.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navegação</h4>
+        <ul>
+          <li><a href="#about">Nossa História</a></li>
+          <li><a href="#menu">Cardápio</a></li>
+          <li><a href="#featured">Em Destaque</a></li>
+          <li><a href="#gallery">Galeria</a></li>
+          <li><a href="#contact">Contato</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Horários</h4>
+        <ul>
+          <li><a href="#">Seg–Sex: 06h às 21h</a></li>
+          <li><a href="#">Sábado: 06h às 18h</a></li>
+          <li><a href="#">Domingo: 07h às 14h</a></li>
+          <li><a href="#">Encomendas: 48h antes</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 Maison Farinha · Todos os direitos reservados · Feito com 🍞 em São Paulo</div>
+      <div class="social-links">
+        <a href="#" class="social-link" title="Instagram">ig</a>
+        <a href="#" class="social-link" title="WhatsApp">wa</a>
+        <a href="#" class="social-link" title="Facebook">fb</a>
+        <a href="#" class="social-link" title="TikTok">tk</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+(function animRing() {
+  rx += (mx - rx) * .12; ry += (my - ry) * .12;
+  ring.style.left = rx+'px'; ring.style.top = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+// ── Nav scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => { navbar.classList.toggle('scrolled', window.scrollY > 60); });
+
+// ── Particles
+const pc = document.getElementById('particles');
+for (let i = 0; i < 28; i++) {
+  const p = document.createElement('div');
+  p.className = 'p';
+  const sz = Math.random() * 4 + 1.5;
+  p.style.cssText = `
+    width:${sz}px; height:${sz}px;
+    left:${Math.random()*100}%;
+    bottom:${Math.random()*20 - 10}%;
+    animation-duration:${Math.random()*14 + 8}s;
+    animation-delay:${Math.random()*10}s;
+  `;
+  pc.appendChild(p);
+}
+
+// ── Tabs
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.menu-card').forEach(card => {
+      card.style.display = card.dataset.cat === cat ? 'block' : 'none';
+      if (card.dataset.cat === cat) { card.classList.add('show'); } else { card.classList.remove('show'); }
+    });
+  });
+});
+
+// ── Scroll Reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Form
+document.querySelector('.form-submit').addEventListener('click', function() {
+  this.textContent = '✓ Mensagem enviada!';
+  this.style.background = '#5c8a3c';
+  setTimeout(() => { this.textContent = 'Enviar Mensagem →'; this.style.background = ''; }, 3000);
+});
+document.querySelector('.nav-cta').addEventListener('click', function() {
+  document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+});
+document.querySelector('.banner-cta').addEventListener('click', function() {
+  document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+</body>
+</html>

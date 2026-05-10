@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pelagem & Alma — Petshop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #0e3d2e;
+    --green-mid: #1a5c42;
+    --cream: #f5ede0;
+    --warm: #f9f4ec;
+    --coral: #e8553e;
+    --gold: #d4a853;
+    --blush: #f2c4a0;
+    --dark: #1a1208;
+    --text: #2c1f0e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--warm);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── CURSOR ─── */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--coral);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s, background 0.3s;
+  }
+  .cursor-ring {
+    width: 40px; height: 40px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.25s ease, opacity 0.3s;
+    opacity: 0.7;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--green); border-radius: 3px; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s, box-shadow 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(14, 61, 46, 0.96);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 30px rgba(0,0,0,0.15);
+  }
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -0.5px;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--coral);
+    color: white !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 50px;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,85,62,0.4); }
+
+  /* ─── REVEAL ─── */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-50px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(50px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    background: var(--green);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: center;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,168,83,0.25) 0%, transparent 70%);
+    animation: pulse-slow 6s ease-in-out infinite;
+  }
+  .hero-bg-circle:nth-child(1) { width: 700px; height: 700px; top: -200px; right: -150px; }
+  .hero-bg-circle:nth-child(2) { width: 400px; height: 400px; bottom: -100px; left: 100px; animation-delay: -3s; }
+
+  @keyframes pulse-slow {
+    0%, 100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+
+  .paw-float {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.08;
+    animation: floatPaw 10s ease-in-out infinite;
+    color: white;
+    user-select: none;
+  }
+  @keyframes floatPaw {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(15deg); }
+  }
+
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 3rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 4rem;
+  }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(212,168,83,0.2);
+    border: 1px solid rgba(212,168,83,0.4);
+    color: var(--gold);
+    font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.4rem 1rem; border-radius: 50px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900;
+    color: white;
+    line-height: 1.0;
+    margin-bottom: 1.5rem;
+  }
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 420px;
+  }
+
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--coral);
+    color: white;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(232,85,62,0.4);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(232,85,62,0.5); }
+
+  .btn-outline {
+    border: 2px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(212,168,83,0.15); }
+
+  .hero-visual {
+    display: flex; justify-content: center; align-items: center;
+    position: relative;
+  }
+
+  .hero-card-wrap {
+    position: relative; width: 380px; height: 460px;
+  }
+
+  .hero-card {
+    position: absolute;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  }
+
+  .hero-card-main {
+    width: 300px; height: 380px;
+    background: linear-gradient(135deg, #2a7a58 0%, #0e3d2e 100%);
+    top: 40px; left: 40px;
+    display: flex; align-items: center; justify-content: center;
+    animation: float-card 5s ease-in-out infinite;
+  }
+  @keyframes float-card {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  .hero-card-accent {
+    width: 200px; height: 220px;
+    background: var(--gold);
+    top: 0; left: 0;
+    z-index: -1;
+    animation: float-card 5s ease-in-out infinite reverse;
+  }
+
+  .hero-card-inner {
+    text-align: center; color: white; padding: 2rem;
+  }
+  .hero-animal-emoji { font-size: 5rem; display: block; margin-bottom: 1rem; }
+  .hero-card-inner h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .hero-card-inner p { font-size: 0.85rem; opacity: 0.8; }
+
+  .floating-badge {
+    position: absolute;
+    background: white;
+    border-radius: 16px;
+    padding: 0.8rem 1.2rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.8rem; font-weight: 600; color: var(--dark);
+    animation: float-badge 4s ease-in-out infinite;
+  }
+  .floating-badge.b1 { bottom: 40px; right: -20px; animation-delay: -1s; }
+  .floating-badge.b2 { top: 20px; right: 10px; animation-delay: -2.5s; }
+  @keyframes float-badge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .badge-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; }
+
+  .hero-stats {
+    position: relative; z-index: 2;
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 3rem 3rem;
+    display: flex; gap: 3rem;
+  }
+  .hero-stat { color: white; }
+  .hero-stat strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--gold);
+  }
+  .hero-stat span { font-size: 0.85rem; opacity: 0.7; }
+
+  /* ─── SECTION COMMON ─── */
+  section { position: relative; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--coral); font-size: 0.75rem;
+    font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .section-label::before {
+    content: ''; width: 24px; height: 2px; background: var(--coral);
+  }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--cream);
+    padding: 8rem 3rem;
+    clip-path: polygon(0 0, 100% 4%, 100% 100%, 0 96%);
+  }
+  .about-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+  }
+  .about-img-stack { position: relative; height: 520px; }
+  .about-img {
+    position: absolute;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--green-mid);
+  }
+  .about-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .about-img.img1 { width: 300px; height: 360px; top: 0; left: 0; }
+  .about-img.img2 { width: 240px; height: 280px; bottom: 0; right: 0; }
+  .about-img.img3 {
+    width: 130px; height: 130px; top: 50%; left: 55%; transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: 0 20px 50px rgba(232,85,62,0.5);
+    border: 4px solid white;
+  }
+  .about-badge {
+    position: absolute; bottom: 10px; right: -20px;
+    background: var(--green);
+    color: white; padding: 1.2rem 1.8rem;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  .about-badge strong { font-family: 'Fraunces', serif; font-size: 2rem; color: var(--gold); display: block; }
+  .about-badge span { font-size: 0.75rem; opacity: 0.8; }
+
+  .about-content h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 3vw, 3.2rem);
+    font-weight: 900; color: var(--dark);
+    line-height: 1.15; margin-bottom: 1.5rem;
+  }
+  .about-content h2 em { color: var(--green); font-style: italic; }
+  .about-content p { color: #5a4a35; line-height: 1.9; margin-bottom: 1.2rem; font-size: 1.05rem; }
+
+  .about-values { display: flex; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+  .about-val {
+    display: flex; align-items: center; gap: 0.6rem;
+    font-size: 0.9rem; font-weight: 600; color: var(--green);
+  }
+  .val-icon { font-size: 1.3rem; }
+
+  /* ─── GALLERY ─── */
+  #gallery {
+    background: var(--warm);
+    padding: 8rem 3rem;
+  }
+  .gallery-header { max-width: 1200px; margin: 0 auto 4rem; text-align: center; }
+  .gallery-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 900; color: var(--dark);
+    margin-bottom: 1rem;
+  }
+  .gallery-header p { color: #7a6550; max-width: 500px; margin: 0 auto; line-height: 1.8; }
+
+  .gallery-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 220px 220px;
+    gap: 1rem;
+  }
+  .gallery-item {
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .gallery-item:hover { transform: scale(1.03); z-index: 5; }
+  .gallery-item:nth-child(1) { grid-column: 1 / 3; grid-row: 1; }
+  .gallery-item:nth-child(4) { grid-column: 4; grid-row: 1 / 3; }
+  .gallery-item:nth-child(6) { grid-column: 2 / 4; grid-row: 2; }
+
+  .g-inner {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #ccc;
+  }
+  .g-inner img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .gallery-item:hover .g-inner img { transform: scale(1.08); }
+
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(14,61,46,0.8) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.3s;
+    display: flex; align-items: flex-end;
+    padding: 1.5rem;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay-text { color: white; }
+  .gallery-overlay-text h4 { font-family: 'Fraunces', serif; font-size: 1.2rem; }
+  .gallery-overlay-text p { font-size: 0.8rem; opacity: 0.8; }
+
+  /* ─── SERVICES ─── */
+  #services {
+    background: var(--green);
+    padding: 8rem 3rem;
+    clip-path: polygon(0 4%, 100% 0, 100% 96%, 0 100%);
+  }
+  .services-inner { max-width: 1200px; margin: 0 auto; }
+  .services-header { margin-bottom: 4rem; }
+  .services-header .section-label { color: var(--gold); }
+  .services-header .section-label::before { background: var(--gold); }
+  .services-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+    font-weight: 900; color: white;
+    max-width: 600px; line-height: 1.15;
+  }
+  .services-header h2 em { color: var(--gold); font-style: italic; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .service-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 2rem;
+    transition: background 0.3s, transform 0.3s, border-color 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--coral), var(--gold));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-card:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,0.2);
+  }
+  .service-icon {
+    width: 60px; height: 60px;
+    background: rgba(212,168,83,0.15);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin-bottom: 1.5rem;
+    transition: background 0.3s;
+  }
+  .service-card:hover .service-icon { background: rgba(212,168,83,0.3); }
+  .service-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem; color: white; margin-bottom: 0.7rem;
+  }
+  .service-card p { font-size: 0.9rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+  .service-price {
+    display: inline-block; margin-top: 1.2rem;
+    color: var(--gold); font-weight: 600; font-size: 1.1rem;
+  }
+
+  /* ─── SCHEDULE ─── */
+  #schedule {
+    background: var(--cream);
+    padding: 8rem 3rem;
+  }
+  .schedule-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1.3fr;
+    gap: 5rem; align-items: start;
+  }
+  .schedule-content h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 900; color: var(--dark); margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+  .schedule-content p { color: #5a4a35; line-height: 1.9; margin-bottom: 2rem; }
+
+  .schedule-hours { list-style: none; }
+  .schedule-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+  .schedule-item:last-child { border-bottom: none; }
+  .schedule-day { font-weight: 600; font-size: 0.95rem; }
+  .schedule-time {
+    background: var(--green);
+    color: white; padding: 0.3rem 0.8rem;
+    border-radius: 50px; font-size: 0.8rem; font-weight: 500;
+  }
+  .schedule-time.closed {
+    background: rgba(0,0,0,0.1); color: #999;
+  }
+
+  .agenda-card {
+    background: var(--green);
+    border-radius: 24px; padding: 3rem;
+    color: white; position: relative; overflow: hidden;
+  }
+  .agenda-card::before {
+    content: '🐾';
+    position: absolute; right: -20px; bottom: -20px;
+    font-size: 10rem; opacity: 0.06; line-height: 1;
+  }
+  .agenda-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem; margin-bottom: 0.8rem; color: var(--gold);
+  }
+  .agenda-card p { opacity: 0.8; margin-bottom: 2rem; line-height: 1.7; font-size: 0.95rem; }
+
+  .agenda-steps { list-style: none; margin-bottom: 2rem; }
+  .agenda-step {
+    display: flex; gap: 1rem; align-items: flex-start;
+    margin-bottom: 1.2rem;
+  }
+  .step-num {
+    width: 28px; height: 28px; min-width: 28px;
+    background: var(--gold); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: var(--dark);
+  }
+  .step-text { font-size: 0.9rem; opacity: 0.85; line-height: 1.6; padding-top: 0.3rem; }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--dark);
+    padding: 0.9rem 2rem;
+    border-radius: 50px;
+    font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; display: inline-flex;
+    align-items: center; gap: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(212,168,83,0.4);
+  }
+  .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(212,168,83,0.5); }
+
+  /* ─── BENEFITS ─── */
+  #benefits {
+    background: var(--warm);
+    padding: 8rem 3rem;
+  }
+  .benefits-inner { max-width: 1200px; margin: 0 auto; }
+  .benefits-top { text-align: center; margin-bottom: 5rem; }
+  .benefits-top h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+    font-weight: 900; color: var(--dark); margin-bottom: 1rem;
+  }
+  .benefits-top h2 em { color: var(--coral); font-style: italic; }
+  .benefits-top p { color: #7a6550; max-width: 520px; margin: 0 auto; line-height: 1.8; }
+
+  .benefits-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 2rem; margin-bottom: 4rem;
+  }
+  .benefit-card {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    background: white; border-radius: 20px; padding: 2rem;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .benefit-card:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+  .benefit-icon-wrap {
+    width: 56px; height: 56px; min-width: 56px;
+    border-radius: 16px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.6rem;
+  }
+  .bi-green { background: rgba(14,61,46,0.1); }
+  .bi-coral { background: rgba(232,85,62,0.1); }
+  .bi-gold { background: rgba(212,168,83,0.15); }
+  .bi-blue { background: rgba(100,160,230,0.15); }
+
+  .benefit-text h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.15rem; color: var(--dark); margin-bottom: 0.5rem;
+  }
+  .benefit-text p { font-size: 0.88rem; color: #7a6550; line-height: 1.7; }
+
+  .differentials {
+    background: var(--green);
+    border-radius: 24px; padding: 3.5rem;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2rem; text-align: center;
+  }
+  .diff-item { color: white; }
+  .diff-icon { font-size: 2.5rem; display: block; margin-bottom: 1rem; }
+  .diff-item h4 { font-family: 'Fraunces', serif; font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--gold); }
+  .diff-item p { font-size: 0.82rem; opacity: 0.7; line-height: 1.6; }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--cream);
+    padding: 8rem 3rem;
+    clip-path: polygon(0 4%, 100% 0, 100% 100%, 0 100%);
+  }
+  .contact-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 5rem; align-items: start;
+  }
+  .contact-info h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 900; color: var(--dark); margin-bottom: 1.2rem;
+    line-height: 1.2;
+  }
+  .contact-info h2 em { color: var(--green); font-style: italic; }
+  .contact-info p { color: #5a4a35; line-height: 1.9; margin-bottom: 2.5rem; }
+
+  .contact-details { display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-detail {
+    display: flex; align-items: center; gap: 1rem;
+    background: white; padding: 1.2rem 1.5rem;
+    border-radius: 14px; box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+  }
+  .cd-icon {
+    width: 44px; height: 44px; background: var(--green);
+    border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.2rem; min-width: 44px;
+  }
+  .cd-text strong { display: block; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--coral); margin-bottom: 0.2rem; }
+  .cd-text span { font-size: 0.95rem; color: var(--dark); font-weight: 500; }
+
+  .contact-form {
+    background: white;
+    border-radius: 24px; padding: 3rem;
+    box-shadow: 0 10px 60px rgba(0,0,0,0.08);
+  }
+  .contact-form h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem; color: var(--dark); margin-bottom: 2rem;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.8rem; font-weight: 600; color: var(--dark); letter-spacing: 0.05em; text-transform: uppercase; }
+  .form-group input, .form-group select, .form-group textarea {
+    padding: 0.85rem 1rem;
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    color: var(--dark);
+    background: var(--warm);
+    transition: border-color 0.3s;
+    outline: none;
+    resize: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--green);
+    background: white;
+  }
+  .form-btn {
+    width: 100%;
+    background: var(--green);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem; font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  }
+  .form-btn:hover { background: var(--green-mid); transform: translateY(-2px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--dark);
+    color: white; padding: 4rem 3rem 2rem;
+  }
+  .footer-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem; margin-bottom: 3rem;
+  }
+  .footer-brand .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem; font-weight: 900; color: white; margin-bottom: 1rem;
+    display: block;
+  }
+  .footer-brand .logo span { color: var(--gold); }
+  .footer-brand p { font-size: 0.85rem; opacity: 0.6; line-height: 1.8; max-width: 240px; }
+  .footer-socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+  .social-btn {
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 10px; display: flex;
+    align-items: center; justify-content: center;
+    font-size: 1.1rem; transition: background 0.3s;
+    text-decoration: none;
+  }
+  .social-btn:hover { background: var(--coral); }
+  .footer-col h4 {
+    font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--gold);
+    margin-bottom: 1.2rem; font-weight: 600;
+  }
+  .footer-col a {
+    display: block; color: rgba(255,255,255,0.6);
+    text-decoration: none; font-size: 0.9rem;
+    margin-bottom: 0.6rem; transition: color 0.3s;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; justify-content: space-between;
+    align-items: center; font-size: 0.82rem;
+    color: rgba(255,255,255,0.4);
+  }
+  .footer-paws { font-size: 1.2rem; letter-spacing: 0.3em; }
+
+  /* ─── WHATSAPP FLOAT ─── */
+  .whatsapp-float {
+    position: fixed; bottom: 2rem; right: 2rem;
+    width: 56px; height: 56px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+    z-index: 90;
+    text-decoration: none;
+    animation: pulse-whats 2.5s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); }
+  @keyframes pulse-whats {
+    0%, 100% { box-shadow: 0 6px 30px rgba(37,211,102,0.5); }
+    50% { box-shadow: 0 6px 50px rgba(37,211,102,0.8); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; padding: 6rem 1.5rem 2rem; }
+    .hero-visual { display: none; }
+    .hero-stats { padding: 0 1.5rem 2rem; gap: 1.5rem; }
+    .about-inner, .schedule-inner, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img-stack { height: 300px; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(3, 200px); }
+    .gallery-item:nth-child(1), .gallery-item:nth-child(4), .gallery-item:nth-child(6) { grid-column: auto; grid-row: auto; }
+    .services-grid { grid-template-columns: 1fr; }
+    .benefits-grid { grid-template-columns: 1fr; }
+    .differentials { grid-template-columns: repeat(2,1fr); }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+    section, #about, #contact { padding: 5rem 1.5rem; }
+    #services { padding: 5rem 1.5rem; }
+    #gallery, #benefits, #schedule { padding: 5rem 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank">📱</a>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Pelagem <span>&</span> Alma</div>
+  <ul class="nav-links">
+    <li><a href="#about">Quem Somos</a></li>
+    <li><a href="#gallery">Galeria</a></li>
+    <li><a href="#services">Serviços</a></li>
+    <li><a href="#schedule">Agenda</a></li>
+    <li><a href="#benefits">Diferenciais</a></li>
+    <li><a href="#contact" class="nav-cta">Agendar ✦</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-circle"></div>
+
+  <!-- Floating Paws -->
+  <div class="paw-float" style="top:15%;left:5%;animation-delay:-2s;font-size:3rem">🐾</div>
+  <div class="paw-float" style="top:70%;left:15%;animation-delay:-5s">🐾</div>
+  <div class="paw-float" style="top:30%;right:30%;animation-delay:-1s;font-size:1.5rem">🐾</div>
+  <div class="paw-float" style="bottom:20%;right:5%;animation-delay:-7s;font-size:2.5rem">🐾</div>
+
+  <div style="width:100%">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">🐾 Bem-vindo ao melhor petshop</div>
+        <h1 class="hero-h1">Seu pet<br>merece o<br><em>melhor.</em></h1>
+        <p class="hero-p">Cuidado com amor, ciência e muito carinho. Somos especialistas em fazer o rabo balançar — e o coração também.</p>
+        <div class="hero-btns">
+          <a href="#contact" class="btn-primary">Agendar agora ✦</a>
+          <a href="#services" class="btn-outline">Ver serviços →</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-card-wrap">
+          <div class="hero-card hero-card-accent"></div>
+          <div class="hero-card hero-card-main">
+            <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Golden Retriever" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <div style="position:absolute;bottom:0;left:0;right:0;padding:1.5rem;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 100%);color:white;text-align:left;">
+              <h3 style="font-family:'Fraunces',serif;font-size:1.2rem;margin-bottom:0.2rem;">Banho & Tosa</h3>
+              <p style="font-size:0.8rem;opacity:0.85;">Especialistas em cuidados premium</p>
+            </div>
+          </div>
+          <div class="floating-badge b1">
+            <div class="badge-dot"></div>
+            <span>+500 clientes felizes</span>
+          </div>
+          <div class="floating-badge b2">
+            <span>⭐ 4.9</span>
+            <span style="opacity:0.6">Avaliação</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat reveal"><strong>8+</strong><span>Anos de experiência</span></div>
+      <div class="hero-stat reveal" style="transition-delay:0.15s"><strong>2k+</strong><span>Pets atendidos</span></div>
+      <div class="hero-stat reveal" style="transition-delay:0.3s"><strong>98%</strong><span>Satisfação</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img-stack reveal-left">
+      <div class="about-img img1">
+        <img src="https://images.pexels.com/photos/5731855/pexels-photo-5731855.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Tosadora cuidando de um cachorro" loading="lazy">
+      </div>
+      <div class="about-img img2">
+        <img src="https://images.pexels.com/photos/2071873/pexels-photo-2071873.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Gato fofo" loading="lazy">
+      </div>
+      <div class="about-img img3">
+        <img src="https://images.pexels.com/photos/1805164/pexels-photo-1805164.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Cachorro feliz" loading="lazy">
+      </div>
+      <div class="about-badge">
+        <strong>8+</strong>
+        <span>Anos cuidando<br>com amor</span>
+      </div>
+    </div>
+    <div class="about-content reveal-right">
+      <div class="section-label">Quem Somos</div>
+      <h2>Mais do que um petshop,<br>somos sua <em>família</em>.</h2>
+      <p>Fundado em 2016 por amantes de animais, o Pelagem & Alma nasceu com uma missão simples: oferecer o cuidado que todo pet merece e a tranquilidade que cada tutor precisa.</p>
+      <p>Nossa equipe é formada por veterinários, tosadores e cuidadores certificados que tratam cada animal com a mesma dedicação de quem tem um pet em casa. Porque para nós, eles não são clientes — são família.</p>
+      <div class="about-values">
+        <div class="about-val"><span class="val-icon">💚</span> Amor genuíno</div>
+        <div class="about-val"><span class="val-icon">🎓</span> Equipe certificada</div>
+        <div class="about-val"><span class="val-icon">🏥</span> Suporte 24h</div>
+        <div class="about-val"><span class="val-icon">✨</span> Produtos premium</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ═══ -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <div class="section-label">Galeria</div>
+    <h2>Nossos pequenos <span style="color:var(--coral);font-style:italic;font-family:'Fraunces',serif">estrelas</span> 🌟</h2>
+    <p>Cada visita é uma história de amor. Conheça alguns dos pets que passaram pelas nossas mãos — e coração.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal" style="transition-delay:0.1s">
+      <div class="g-inner">
+        <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Thor, o Golden Retriever" loading="lazy">
+      </div>
+      <div class="gallery-overlay"><div class="gallery-overlay-text"><h4>Thor, o Golden</h4><p>Banho & Tosa completa</p></div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:0.2s">
+      <div class="g-inner">
+        <img src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Luna, a Gatinha" loading="lazy">
+      </div>
+      <div class="gallery-overlay"><div class="gallery-overlay-text"><h4>Luna, a Gatinha</h4><p>Tosa higiênica</p></div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:0.3s">
+      <div class="g-inner">
+        <img src="https://images.pexels.com/photos/2253275/pexels-photo-2253275.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Fred, o Poodle" loading="lazy">
+      </div>
+      <div class="gallery-overlay"><div class="gallery-overlay-text"><h4>Fred, o Poodle</h4><p>Tosa modelo teddy</p></div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:0.15s">
+      <div class="g-inner">
+        <img src="https://images.pexels.com/photos/326012/pexels-photo-326012.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bolinha, o Coelho" loading="lazy">
+      </div>
+      <div class="gallery-overlay"><div class="gallery-overlay-text"><h4>Bolinha, o Coelho</h4><p>Consulta e cuidados</p></div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:0.25s">
+      <div class="g-inner">
+        <img src="https://images.pexels.com/photos/1741205/pexels-photo-1741205.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Mimi, a Malhada" loading="lazy">
+      </div>
+      <div class="gallery-overlay"><div class="gallery-overlay-text"><h4>Mimi, a Malhada</h4><p>Spa felino</p></div></div>
+    </div>
+    <div class="gallery-item reveal" style="transition-delay:0.35s">
+      <div class="g-inner">
+        <img src="https://images.pexels.com/photos/1462753/pexels-photo-1462753.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Kiwi, o Papagaio" loading="lazy">
+      </div>
+      <div class="gallery-overlay"><div class="gallery-overlay-text"><h4>Kiwi, o Papagaio</h4><p>Cuidados especiais</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="services-inner">
+    <div class="services-header reveal">
+      <div class="section-label">Serviços</div>
+      <h2>Tudo o que seu pet<br>precisa em um <em>só lugar</em></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal" style="transition-delay:0.1s">
+        <div class="service-icon">🛁</div>
+        <h3>Banho & Tosa</h3>
+        <p>Banho com shampoo premium, secagem profissional, tosa e acabamento perfeito para o seu pet brilhar.</p>
+        <span class="service-price">A partir de R$ 60</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.2s">
+        <div class="service-icon">🏥</div>
+        <h3>Consulta Veterinária</h3>
+        <p>Clínica geral, vacinação, vermifugação e acompanhamento de saúde com veterinários experientes.</p>
+        <span class="service-price">A partir de R$ 120</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.3s">
+        <div class="service-icon">🏨</div>
+        <h3>Hotel Pet</h3>
+        <p>Hospedagem confortável e segura, com acompanhamento 24h e brincadeiras guiadas todos os dias.</p>
+        <span class="service-price">A partir de R$ 80/diária</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.15s">
+        <div class="service-icon">✂️</div>
+        <h3>Tosa Especializada</h3>
+        <p>Tosadores certificados com experiência em todas as raças e estilos, da tosa padrão à criativa.</p>
+        <span class="service-price">A partir de R$ 80</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.25s">
+        <div class="service-icon">💆</div>
+        <h3>Spa & Estética</h3>
+        <p>Hidratação, aromaterapia, massagem relaxante e tratamentos premium para o pelo do seu pet.</p>
+        <span class="service-price">A partir de R$ 90</span>
+      </div>
+      <div class="service-card reveal" style="transition-delay:0.35s">
+        <div class="service-icon">🚗</div>
+        <h3>Busca & Leva</h3>
+        <p>Serviço de transporte seguro com van especial para buscar e levar seu pet sem estresse.</p>
+        <span class="service-price">A partir de R$ 30</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCHEDULE ═══ -->
+<section id="schedule">
+  <div class="schedule-inner">
+    <div class="reveal-left">
+      <div class="section-label">Horários</div>
+      <h2 class="schedule-content" style="font-family:'Fraunces',serif;font-size:clamp(2rem,3vw,3rem);font-weight:900;color:var(--dark);margin-bottom:1.5rem;line-height:1.2">Sempre aqui<br>quando você precisar</h2>
+      <p style="color:#5a4a35;line-height:1.9;margin-bottom:2rem">Funcionamos em horários amplos para se adaptar à sua rotina. Agende com antecedência e garanta o horário ideal.</p>
+      <ul class="schedule-hours">
+        <li class="schedule-item">
+          <span class="schedule-day">Segunda a Sexta</span>
+          <span class="schedule-time">08:00 – 20:00</span>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-day">Sábado</span>
+          <span class="schedule-time">08:00 – 18:00</span>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-day">Domingo</span>
+          <span class="schedule-time">09:00 – 14:00</span>
+        </li>
+        <li class="schedule-item">
+          <span class="schedule-day">Feriados</span>
+          <span class="schedule-time closed">Consultar</span>
+        </li>
+      </ul>
+    </div>
+    <div class="agenda-card reveal-right">
+      <h3>Agende Online 🐾</h3>
+      <p>Marque o horário do seu pet em poucos passos, direto pelo WhatsApp ou nosso formulário. Rápido, fácil e sem complicação!</p>
+      <ul class="agenda-steps">
+        <li class="agenda-step">
+          <span class="step-num">1</span>
+          <span class="step-text">Escolha o serviço que seu pet precisa</span>
+        </li>
+        <li class="agenda-step">
+          <span class="step-num">2</span>
+          <span class="step-text">Selecione a data e horário disponível</span>
+        </li>
+        <li class="agenda-step">
+          <span class="step-num">3</span>
+          <span class="step-text">Informe os dados do seu pet</span>
+        </li>
+        <li class="agenda-step">
+          <span class="step-num">4</span>
+          <span class="step-text">Receba a confirmação e aproveite! 🎉</span>
+        </li>
+      </ul>
+      <a href="#contact" class="btn-gold">Agendar agora ✦</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS ═══ -->
+<section id="benefits">
+  <div class="benefits-inner">
+    <div class="benefits-top reveal">
+      <div class="section-label">Diferenciais</div>
+      <h2>Por que escolher<br>o <em>Pelagem & Alma?</em></h2>
+      <p>Não somos só um petshop. Somos um lugar onde cada pet é tratado com respeito, amor e a excelência que merece.</p>
+    </div>
+    <div class="benefits-grid">
+      <div class="benefit-card reveal" style="transition-delay:0.1s">
+        <div class="benefit-icon-wrap bi-green">🎓</div>
+        <div class="benefit-text">
+          <h4>Equipe Certificada</h4>
+          <p>Todos os nossos profissionais possuem formação técnica e passam por treinamentos periódicos de atualização.</p>
+        </div>
+      </div>
+      <div class="benefit-card reveal" style="transition-delay:0.2s">
+        <div class="benefit-icon-wrap bi-coral">🛡️</div>
+        <div class="benefit-text">
+          <h4>Ambiente Seguro</h4>
+          <p>Instalações projetadas para o bem-estar animal, com câmeras de monitoramento e separação por porte.</p>
+        </div>
+      </div>
+      <div class="benefit-card reveal" style="transition-delay:0.15s">
+        <div class="benefit-icon-wrap bi-gold">🌿</div>
+        <div class="benefit-text">
+          <h4>Produtos Premium</h4>
+          <p>Usamos apenas produtos de alta qualidade, hipoalergênicos e testados dermatologicamente em pets.</p>
+        </div>
+      </div>
+      <div class="benefit-card reveal" style="transition-delay:0.25s">
+        <div class="benefit-icon-wrap bi-blue">📱</div>
+        <div class="benefit-text">
+          <h4>Acompanhamento em Tempo Real</h4>
+          <p>Você recebe fotos e atualizações do seu pet durante o atendimento via WhatsApp. Paz de espírito garantida!</p>
+        </div>
+      </div>
+    </div>
+    <div class="differentials reveal">
+      <div class="diff-item">
+        <span class="diff-icon">⚡</span>
+        <h4>Atendimento Rápido</h4>
+        <p>Sem longas filas de espera. Agendamento honrado com pontualidade.</p>
+      </div>
+      <div class="diff-item">
+        <span class="diff-icon">💳</span>
+        <h4>Pagamento Flexível</h4>
+        <p>Pix, cartão de crédito, débito e parcelamento sem juros.</p>
+      </div>
+      <div class="diff-item">
+        <span class="diff-icon">🎁</span>
+        <h4>Programa Fidelidade</h4>
+        <p>A cada 10 banhos, o 11º é por nossa conta. Simples assim.</p>
+      </div>
+      <div class="diff-item">
+        <span class="diff-icon">🏠</span>
+        <h4>Busca & Entrega</h4>
+        <p>Buscamos e entregamos seu pet com segurança e conforto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal-left">
+      <div class="section-label">Contato</div>
+      <h2 class="contact-info">Vamos cuidar do<br>seu pet <em>juntos?</em></h2>
+      <p style="color:#5a4a35;line-height:1.9;margin-bottom:2.5rem">Fale conosco, tire dúvidas ou agende um horário. Estamos sempre prontos para atender você e seu pet com todo carinho.</p>
+      <div class="contact-details">
+        <div class="contact-detail">
+          <div class="cd-icon">📍</div>
+          <div class="cd-text">
+            <strong>Endereço</strong>
+            <span>Rua dos Animais, 123 – Jardim Feliz, SP</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">📞</div>
+          <div class="cd-text">
+            <strong>Telefone</strong>
+            <span>(11) 99999-9999</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">📧</div>
+          <div class="cd-text">
+            <strong>E-mail</strong>
+            <span>oi@pelegemalma.com.br</span>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <div class="cd-icon">📱</div>
+          <div class="cd-text">
+            <strong>WhatsApp</strong>
+            <span>(11) 99999-9999</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal-right">
+      <h3>Agende seu horário 🐾</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Seu nome</label>
+          <input type="text" placeholder="João Silva">
+        </div>
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="tel" placeholder="(11) 99999-9999">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome do pet</label>
+          <input type="text" placeholder="Thor">
+        </div>
+        <div class="form-group">
+          <label>Espécie</label>
+          <select>
+            <option value="">Selecione...</option>
+            <option>🐕 Cachorro</option>
+            <option>🐈 Gato</option>
+            <option>🐇 Coelho</option>
+            <option>🦜 Ave</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Serviço desejado</label>
+        <select>
+          <option value="">Selecione o serviço...</option>
+          <option>Banho & Tosa</option>
+          <option>Consulta Veterinária</option>
+          <option>Hotel Pet</option>
+          <option>Tosa Especializada</option>
+          <option>Spa & Estética</option>
+          <option>Busca & Leva</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Mensagem (opcional)</label>
+        <textarea rows="3" placeholder="Alguma observação sobre seu pet..."></textarea>
+      </div>
+      <button class="form-btn" onclick="this.innerHTML='✅ Enviado! Entraremos em contato.';this.style.background='#22c55e'">
+        Enviar agendamento ✦
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo">Pelagem <span>&</span> Alma</span>
+      <p>Cuidando do seu pet com amor, ciência e muita dedicação desde 2016.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="Facebook">👍</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+        <a class="social-btn" href="#" title="TikTok">🎵</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Serviços</h4>
+      <a href="#">Banho & Tosa</a>
+      <a href="#">Consulta Vet.</a>
+      <a href="#">Hotel Pet</a>
+      <a href="#">Spa & Estética</a>
+      <a href="#">Busca & Leva</a>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <a href="#about">Quem Somos</a>
+      <a href="#gallery">Galeria</a>
+      <a href="#schedule">Horários</a>
+      <a href="#benefits">Diferenciais</a>
+      <a href="#contact">Contato</a>
+    </div>
+    <div class="footer-col">
+      <h4>Horários</h4>
+      <a href="#">Seg–Sex: 08h–20h</a>
+      <a href="#">Sábado: 08h–18h</a>
+      <a href="#">Domingo: 09h–14h</a>
+      <a href="#">📍 São Paulo, SP</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Pelagem & Alma. Todos os direitos reservados.</span>
+    <span class="footer-paws">🐾🐾🐾</span>
+  </div>
+</footer>
+
+<script>
+// ─── CURSOR ───
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX; mouseY = e.clientY;
+  cursor.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
+});
+
+function animateRing() {
+  ringX += (mouseX - ringX) * 0.12;
+  ringY += (mouseY - ringY) * 0.12;
+  ring.style.transform = `translate(${ringX - 20}px, ${ringY - 20}px)`;
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .service-card, .gallery-item').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform += ' scale(2)';
+    ring.style.transform += ' scale(1.5)';
+    ring.style.borderColor = 'var(--coral)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ring.style.borderColor = 'var(--gold)';
+  });
+});
+
+// ─── NAV SCROLL ───
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ─── REVEAL ON SCROLL ───
+const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+revealEls.forEach(el => observer.observe(el));
+
+// ─── STAGGER CHILDREN ───
+document.querySelectorAll('.services-grid, .benefits-grid, .gallery-grid').forEach(grid => {
+  Array.from(grid.children).forEach((child, i) => {
+    if (!child.style.transitionDelay) {
+      child.style.transitionDelay = `${i * 0.08}s`;
+    }
+  });
+});
+
+// ─── GALLERY PARALLAX ───
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  document.querySelectorAll('.paw-float').forEach((el, i) => {
+    const speed = 0.05 + i * 0.02;
+    el.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.02}deg)`;
+  });
+});
+
+// ─── HERO EMOJI CYCLE ───
+const animals = ['🐕', '🐈', '🐩', '🐇', '🦜', '🐾'];
+let idx = 0;
+const emojiEl = document.querySelector('.hero-animal-emoji');
+if (emojiEl) {
+  setInterval(() => {
+    idx = (idx + 1) % animals.length;
+    emojiEl.style.transform = 'scale(0)';
+    setTimeout(() => {
+      emojiEl.textContent = animals[idx];
+      emojiEl.style.transform = 'scale(1)';
+      emojiEl.style.transition = 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1)';
+    }, 200);
+  }, 2000);
+}
+</script>
+</body>
+</html>

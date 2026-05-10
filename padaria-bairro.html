@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Padaria da Dona Cida — Desde 1987</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --manteiga:#FDF7E8;
+  --creme:   #FAF0D3;
+  --papel:   #F7EDD5;
+  --ambar:   #D4913A;
+  --ambar2:  #EBB96A;
+  --ambar3:  #F5D898;
+  --terra:   #B85C38;
+  --terra2:  #D47850;
+  --sage:    #6B9070;
+  --sage2:   #A8C9AB;
+  --sage3:   #DFF0E0;
+  --brun:    #3E2110;
+  --brun2:   #6A3820;
+  --text:    #2A1608;
+  --muted:   #8A6848;
+  --rosa:    #F2B8A0;
+  --ceu:     #B8D9E8;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--manteiga);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* grain texture overlay */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  pointer-events:none;z-index:9997;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.035'/%3E%3C/svg%3E");
+  opacity:1;
+}
+
+/* ─── CURSOR ─── */
+.cur{position:fixed;z-index:9999;pointer-events:none;width:12px;height:12px;background:var(--terra);border-radius:50%;transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s}
+.cur-r{position:fixed;z-index:9998;pointer-events:none;width:36px;height:36px;border:2px solid var(--ambar);border-radius:50%;transform:translate(-50%,-50%);opacity:.55;transition:transform .12s ease-out,width .25s,height .25s}
+body:has(a:hover) .cur,body:has(button:hover) .cur{width:20px;height:20px;background:var(--ambar)}
+body:has(a:hover) .cur-r,body:has(button:hover) .cur-r{width:54px;height:54px}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.4rem 3rem;
+  transition:all .35s;
+}
+nav.s{
+  background:rgba(253,247,232,.96);
+  backdrop-filter:blur(12px);
+  padding:1rem 3rem;
+  box-shadow:0 2px 20px rgba(62,33,16,.08);
+  border-bottom:2px dashed rgba(212,145,58,.2);
+}
+.nlogo{
+  font-family:'Caveat',cursive;
+  font-size:1.7rem;font-weight:700;
+  color:var(--brun);text-decoration:none;
+  display:flex;flex-direction:column;line-height:1.1;
+  transform:rotate(-1deg);
+}
+.nlogo small{
+  font-family:'Nunito';font-weight:400;
+  font-size:.52rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--muted);transform:rotate(1deg);display:block;margin-top:.2rem;
+}
+.nlinks{display:flex;gap:2.5rem;list-style:none}
+.nlinks a{
+  font-family:'Nunito';font-weight:600;font-size:.8rem;letter-spacing:.08em;
+  color:var(--brun2);text-decoration:none;
+  transition:color .2s;
+  position:relative;
+}
+.nlinks a::after{
+  content:'';position:absolute;bottom:-3px;left:0;
+  width:0;height:2px;background:var(--terra);
+  border-radius:2px;transition:width .25s;
+}
+.nlinks a:hover{color:var(--terra)}
+.nlinks a:hover::after{width:100%}
+.npedido{
+  font-family:'Caveat';font-size:1.1rem;font-weight:700;
+  background:var(--terra);color:#fff;
+  border:none;padding:.55rem 1.6rem;
+  border-radius:999px;cursor:none;
+  transform:rotate(-1.5deg);
+  transition:background .2s,transform .2s,box-shadow .2s;
+  box-shadow:3px 3px 0 rgba(62,33,16,.15);
+}
+.npedido:hover{background:var(--terra2);transform:rotate(-1.5deg) translateY(-2px);box-shadow:4px 6px 0 rgba(62,33,16,.2)}
+
+/* ─── HERO ─── */
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  position:relative;overflow:hidden;
+  background:var(--creme);
+  padding-top:90px;
+}
+
+/* paper strips decorative */
+.paper-strip{
+  position:absolute;left:0;right:0;height:8px;
+  background:repeating-linear-gradient(90deg,var(--ambar3) 0,var(--ambar3) 8px,var(--ambar2) 8px,var(--ambar2) 16px,var(--ambar3) 16px);
+}
+.paper-strip.top{top:0}
+.paper-strip.bot{bottom:0}
+
+/* SVG hand-drawn bg doodles */
+.hero-doodles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.1fr 1fr;
+  gap:3rem;align-items:center;
+  max-width:1200px;margin:0 auto;
+  padding:4rem 4rem 5rem;
+  width:100%;
+  position:relative;z-index:2;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:.5rem;
+  background:var(--sage3);
+  border:2px solid var(--sage2);
+  border-radius:999px;
+  padding:.4rem 1.1rem;
+  font-family:'Caveat';font-size:1.05rem;font-weight:500;
+  color:var(--sage);
+  margin-bottom:1.4rem;
+  transform:rotate(-1deg);
+  opacity:0;animation:popIn .6s .2s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes popIn{from{opacity:0;transform:rotate(-1deg) scale(.7)}to{opacity:1;transform:rotate(-1deg) scale(1)}}
+h1.htitle{
+  font-family:'Caveat',cursive;
+  font-size:clamp(3rem,7vw,5.5rem);
+  font-weight:700;
+  line-height:1;
+  color:var(--brun);
+  opacity:0;animation:fadeUp .8s .35s forwards;
+}
+h1.htitle .linha2{
+  color:var(--terra);
+  display:block;
+  font-style:italic;
+  font-size:1.15em;
+}
+h1.htitle .linha3{color:var(--ambar);display:block}
+.hero-desc{
+  font-size:1rem;font-weight:400;line-height:1.85;
+  color:var(--muted);max-width:430px;
+  margin:1.4rem 0 2.2rem;
+  opacity:0;animation:fadeUp .8s .5s forwards;
+}
+.hero-btns{
+  display:flex;gap:1.1rem;align-items:center;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .8s .65s forwards;
+}
+.btn-terra{
+  font-family:'Caveat';font-size:1.2rem;font-weight:700;
+  text-decoration:none;color:#fff;
+  background:var(--terra);
+  padding:.65rem 2rem;
+  border-radius:999px;border:none;cursor:none;
+  transform:rotate(-1deg);
+  transition:background .2s,transform .2s,box-shadow .2s;
+  box-shadow:3px 3px 0 rgba(62,33,16,.2);
+  display:inline-block;
+}
+.btn-terra:hover{background:var(--terra2);transform:rotate(-1deg) translateY(-3px);box-shadow:4px 7px 0 rgba(62,33,16,.25)}
+.btn-link{
+  font-family:'Caveat';font-size:1.1rem;font-weight:600;
+  text-decoration:none;color:var(--brun2);
+  display:flex;align-items:center;gap:.4rem;
+  opacity:.7;transition:opacity .2s,gap .25s;
+}
+.btn-link:hover{opacity:1;gap:.7rem}
+.hero-quirks{
+  display:flex;gap:1.5rem;flex-wrap:wrap;
+  margin-top:2rem;
+  opacity:0;animation:fadeUp .8s .8s forwards;
+}
+.quirk{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:.82rem;font-weight:500;color:var(--muted);
+}
+.quirk span{font-size:1rem}
+
+/* hero right - stacked photos */
+.hero-photos{
+  position:relative;height:520px;
+  opacity:0;animation:fadeRight .9s .45s forwards;
+}
+@keyframes fadeRight{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.polaroid{
+  position:absolute;
+  background:#fff;
+  padding:10px 10px 36px;
+  box-shadow:4px 6px 24px rgba(62,33,16,.12);
+}
+.polaroid img{width:100%;height:100%;object-fit:cover;display:block}
+.polaroid .pcap{
+  font-family:'Caveat';font-size:1rem;font-weight:500;
+  color:var(--muted);text-align:center;
+  padding-top:6px;
+}
+.pol1{width:260px;height:280px;top:0;left:10%;transform:rotate(2.5deg)}
+.pol2{width:220px;height:240px;top:60px;right:5%;transform:rotate(-3deg)}
+.pol3{width:200px;height:220px;bottom:30px;left:20%;transform:rotate(1deg)}
+.pol4{width:180px;height:190px;bottom:60px;right:12%;transform:rotate(-2deg)}
+
+/* hero open badge */
+.open-badge{
+  position:absolute;top:2rem;right:2rem;
+  width:100px;height:100px;
+  background:var(--ambar);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Caveat';font-weight:700;
+  color:var(--brun);
+  box-shadow:3px 3px 0 rgba(62,33,16,.15);
+  animation:wiggle 4s ease-in-out infinite;
+  transform-origin:center center;
+}
+.open-badge .ob1{font-size:1.4rem;line-height:1}
+.open-badge .ob2{font-size:.65rem;letter-spacing:.1em}
+@keyframes wiggle{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── HOJE NA PADARIA ─── */
+#hoje{
+  background:var(--brun);
+  padding:3.5rem 0;
+  position:relative;overflow:hidden;
+}
+#hoje::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    -45deg,transparent,transparent 12px,
+    rgba(255,255,255,.015) 12px,rgba(255,255,255,.015) 13px
+  );
+}
+.hoje-inner{
+  max-width:1100px;margin:0 auto;padding:0 3rem;
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  flex-wrap:wrap;
+}
+.hoje-label{
+  font-family:'Caveat';font-size:1.5rem;font-weight:700;
+  color:var(--ambar2);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.hoje-items{
+  display:flex;gap:.8rem;flex-wrap:wrap;flex:1;justify-content:center;
+}
+.hoje-chip{
+  font-family:'Nunito';font-size:.78rem;font-weight:600;
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(255,255,255,.1);
+  border-radius:999px;
+  color:rgba(253,247,232,.75);
+  padding:.4rem 1.1rem;
+  display:flex;align-items:center;gap:.4rem;
+  transition:background .2s,border-color .2s;
+}
+.hoje-chip:hover{background:rgba(255,255,255,.14);border-color:rgba(212,145,58,.4)}
+.hoje-chip span{opacity:.8}
+.hoje-cta{
+  font-family:'Caveat';font-size:1.1rem;font-weight:700;
+  text-decoration:none;color:var(--brun);
+  background:var(--ambar);border-radius:999px;
+  padding:.5rem 1.6rem;
+  white-space:nowrap;flex-shrink:0;
+  transition:background .2s,transform .2s;
+  display:inline-block;transform:rotate(-1deg);
+}
+.hoje-cta:hover{background:var(--ambar2);transform:rotate(-1deg) scale(1.04)}
+
+/* ─── SECTION COMMONS ─── */
+section{padding:6rem 0}
+.container{max-width:1180px;margin:0 auto;padding:0 3.5rem}
+.sec-tag{
+  font-family:'Caveat';font-size:1.1rem;font-weight:600;
+  color:var(--terra);
+  display:flex;align-items:center;gap:.7rem;
+  margin-bottom:.8rem;
+}
+.sec-tag::before{content:'~';opacity:.5}
+h2.stitle{
+  font-family:'Caveat';
+  font-size:clamp(2.2rem,4.5vw,3.5rem);
+  font-weight:700;line-height:1;
+  color:var(--brun);
+}
+h2.stitle em{font-style:italic;color:var(--terra)}
+h2.stitle .s-sage{color:var(--sage)}
+h2.stitle .s-ambar{color:var(--ambar)}
+h2.stitle.light{color:#fff}
+h2.stitle.light em{color:var(--ambar2)}
+
+/* ─── SQUIGGLE DIVIDER ─── */
+.squiggle{width:100%;height:20px;overflow:hidden;line-height:0}
+.squiggle svg{width:100%;height:100%}
+
+/* ─── ABOUT / STORIA ─── */
+#about{background:var(--manteiga)}
+.about-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+.about-photo-stack{position:relative;height:520px}
+.ap{
+  position:absolute;overflow:hidden;
+  box-shadow:4px 6px 24px rgba(62,33,16,.1);
+}
+.ap img{width:100%;height:100%;object-fit:cover}
+.ap1{width:280px;height:340px;top:0;left:0;transform:rotate(-2deg);border:8px solid #fff}
+.ap2{width:240px;height:280px;bottom:20px;right:10%;transform:rotate(3deg);border:8px solid #fff}
+.ap3{
+  position:absolute;bottom:40px;left:35%;
+  background:var(--ambar);
+  padding:1rem 1.4rem;
+  transform:rotate(-1.5deg);
+  box-shadow:3px 3px 0 rgba(62,33,16,.15);
+  font-family:'Caveat';font-size:1.2rem;font-weight:700;
+  color:var(--brun);line-height:1.3;text-align:center;
+  max-width:160px;
+}
+.ap3 strong{display:block;font-size:2.5rem;line-height:1}
+.about-text p{
+  font-size:.95rem;font-weight:400;line-height:2;
+  color:var(--muted);margin-bottom:1.3rem;
+}
+.about-text p:first-of-type{font-size:1.08rem;color:var(--brun2)}
+.about-sign{
+  margin-top:2rem;
+  font-family:'Caveat';font-size:1.6rem;font-weight:600;
+  color:var(--terra);transform:rotate(-2deg);display:inline-block;
+}
+.about-chips{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem;padding-top:2rem;border-top:2px dashed var(--creme)}
+.achip{
+  font-size:.75rem;font-weight:600;
+  border:1.5px solid var(--ambar3);
+  border-radius:999px;padding:.35rem 1rem;
+  color:var(--brun2);background:var(--creme);
+  transition:background .2s,border-color .2s;
+}
+.achip:hover{background:var(--ambar3);border-color:var(--ambar2)}
+
+/* ─── PRODUTOS / VITRINE ─── */
+#vitrine{background:var(--papel);position:relative}
+.vitrine-top{text-align:center;margin-bottom:3.5rem}
+.vitrine-top .sec-tag{justify-content:center}
+.cat-strip{
+  display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;
+  margin-top:2rem;
+}
+.catbtn{
+  font-family:'Caveat';font-size:1.1rem;font-weight:600;
+  background:none;
+  border:2px solid rgba(110,56,32,.15);
+  border-radius:999px;padding:.45rem 1.4rem;
+  color:var(--muted);cursor:none;
+  transition:all .22s;
+}
+.catbtn.on,.catbtn:hover{
+  background:var(--brun);color:var(--ambar3);
+  border-color:var(--brun);
+  transform:rotate(-1deg) scale(1.04);
+}
+.vprod-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+.vcard{
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:2px 4px 16px rgba(62,33,16,.06);
+  transition:transform .3s,box-shadow .3s;
+  cursor:none;
+  display:none;
+}
+.vcard.vis{display:block}
+.vcard:hover{transform:translateY(-6px) rotate(.5deg);box-shadow:4px 12px 32px rgba(62,33,16,.12)}
+.vcard-img{
+  position:relative;overflow:hidden;
+  aspect-ratio:4/3;background:var(--creme);
+}
+.vcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.vcard:hover .vcard-img img{transform:scale(1.07)}
+.vcard-badge{
+  position:absolute;top:.8rem;left:.8rem;
+  font-family:'Caveat';font-size:.95rem;font-weight:700;
+  border-radius:999px;padding:.2rem .9rem;
+  transform:rotate(-2deg);
+}
+.badge-hot{background:var(--terra);color:#fff}
+.badge-new{background:var(--sage);color:#fff}
+.badge-fav{background:var(--ambar);color:var(--brun)}
+.vcard-body{padding:1.3rem 1.5rem 1.6rem}
+.vcard-name{
+  font-family:'Nunito';font-size:1.05rem;font-weight:700;
+  color:var(--brun);margin-bottom:.35rem;
+}
+.vcard-desc{font-size:.78rem;font-weight:400;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+.vcard-ft{display:flex;align-items:center;justify-content:space-between}
+.vcard-price{
+  font-family:'Caveat';font-size:1.5rem;font-weight:700;
+  color:var(--terra);
+}
+.vcard-add{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--brun);color:var(--ambar3);
+  border:none;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;transition:background .2s,transform .2s;
+}
+.vcard-add:hover{background:var(--terra);transform:rotate(90deg) scale(1.1)}
+
+/* ─── CHALKBOARD ─── */
+#quadro{
+  background:var(--brun);
+  position:relative;overflow:hidden;
+  padding:6rem 0;
+}
+/* chalk texture */
+#quadro::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.quadro-inner{
+  max-width:900px;margin:0 auto;padding:0 3rem;
+  text-align:center;
+}
+.quadro-deco{
+  font-family:'Caveat';font-size:1rem;font-weight:500;
+  color:rgba(245,216,152,.5);letter-spacing:.25em;text-transform:uppercase;
+  margin-bottom:1.5rem;
+}
+.quadro-title{
+  font-family:'Caveat';font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;
+  color:#fff;line-height:1.05;margin-bottom:.5rem;
+}
+.quadro-sub{
+  font-family:'Fraunces',serif;font-size:1.1rem;font-style:italic;font-weight:300;
+  color:rgba(245,216,152,.6);margin-bottom:3rem;
+}
+.quadro-frame{
+  border:2px dashed rgba(255,255,255,.15);
+  border-radius:8px;padding:2.5rem;
+  position:relative;
+}
+.quadro-frame::before,.quadro-frame::after{
+  content:'✦';
+  position:absolute;font-size:1rem;
+  color:rgba(245,216,152,.3);
+}
+.quadro-frame::before{top:.7rem;left:1rem}
+.quadro-frame::after{bottom:.7rem;right:1rem}
+.specials-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:2rem;text-align:left;
+}
+.special-item{border-left:2px solid rgba(245,216,152,.2);padding-left:1.2rem}
+.sp-cat{
+  font-family:'Caveat';font-size:.95rem;font-weight:500;
+  color:var(--ambar2);letter-spacing:.15em;text-transform:uppercase;
+  margin-bottom:.8rem;
+}
+.sp-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  font-family:'Nunito';font-size:.85rem;font-weight:400;
+  color:rgba(253,247,232,.6);
+  border-bottom:1px dashed rgba(255,255,255,.07);
+  padding:.5rem 0;
+}
+.sp-row:last-child{border-bottom:none}
+.sp-name{flex:1;margin-right:1rem}
+.sp-price{
+  font-family:'Caveat';font-size:1.1rem;font-weight:700;
+  color:rgba(253,247,232,.85);white-space:nowrap;
+}
+.quadro-note{
+  margin-top:2rem;
+  font-family:'Caveat';font-size:1rem;font-weight:500;
+  color:rgba(245,216,152,.4);
+  font-style:italic;
+}
+
+/* ─── EQUIPE ─── */
+#equipe{background:var(--manteiga)}
+.equipe-header{text-align:center;margin-bottom:4rem}
+.equipe-header .sec-tag{justify-content:center}
+.team-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:2rem;
+}
+.tcard{
+  text-align:center;
+  cursor:none;
+}
+.tcard-frame{
+  position:relative;margin:0 auto 1.2rem;
+  width:160px;height:160px;
+}
+.tcard-photo{
+  width:150px;height:150px;
+  border-radius:50%;overflow:hidden;
+  border:4px solid #fff;
+  box-shadow:3px 4px 18px rgba(62,33,16,.1);
+  position:absolute;top:5px;left:5px;
+  transition:transform .3s;
+}
+.tcard:hover .tcard-photo{transform:rotate(3deg) scale(1.05)}
+.tcard-photo img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.tcard-ring{
+  position:absolute;inset:0;border-radius:50%;
+  border:2px dashed var(--ambar3);
+  animation:ringRotate 12s linear infinite;
+}
+.tcard:hover .tcard-ring{border-color:var(--ambar)}
+@keyframes ringRotate{to{transform:rotate(360deg)}}
+.tcard-name{
+  font-family:'Caveat';font-size:1.3rem;font-weight:700;
+  color:var(--brun);margin-bottom:.15rem;
+}
+.tcard-role{
+  font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--terra);margin-bottom:.6rem;
+}
+.tcard-bio{font-size:.78rem;font-weight:400;color:var(--muted);line-height:1.7;max-width:200px;margin:0 auto}
+.tcard-tempo{
+  display:inline-block;
+  margin-top:.7rem;
+  font-family:'Caveat';font-size:.9rem;font-weight:600;
+  background:var(--creme);border:1.5px dashed var(--ambar3);
+  border-radius:999px;padding:.2rem .8rem;
+  color:var(--muted);
+}
+
+/* ─── DEPOIMENTOS / POST-ITS ─── */
+#depoimentos{background:var(--creme);overflow:hidden;position:relative}
+.dep-bg-txt{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Caveat';font-size:20rem;font-weight:700;
+  color:rgba(212,145,58,.04);white-space:nowrap;pointer-events:none;
+  user-select:none;line-height:1;
+}
+.dep-header{text-align:center;margin-bottom:4rem;position:relative;z-index:1}
+.postits-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.8rem;
+  position:relative;z-index:1;
+}
+.postit{
+  position:relative;padding:1.8rem;
+  border-radius:2px;
+  box-shadow:3px 5px 20px rgba(62,33,16,.1),0 1px 3px rgba(62,33,16,.08);
+  cursor:none;
+  transition:transform .3s,box-shadow .3s;
+}
+.postit:hover{transform:rotate(0) scale(1.03);box-shadow:5px 10px 30px rgba(62,33,16,.15)}
+.postit::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:60px;height:18px;
+  background:rgba(255,255,255,.45);
+  border-radius:0 0 4px 4px;
+}
+.pi-amarelo{background:#FFF59D;transform:rotate(-1.5deg)}
+.pi-rosa{background:#FFCCBC;transform:rotate(1deg)}
+.pi-verde{background:#C8E6C9;transform:rotate(-2deg)}
+.pi-azul{background:#B3E5FC;transform:rotate(1.5deg)}
+.pi-laranja{background:#FFE0B2;transform:rotate(-1deg)}
+.pi-lilas{background:#E1BEE7;transform:rotate(2deg)}
+.postit-stars{font-size:.85rem;color:var(--terra);letter-spacing:.1em;margin-bottom:.8rem}
+.postit-text{
+  font-family:'Caveat';font-size:1.1rem;font-weight:500;
+  color:var(--brun);line-height:1.5;margin-bottom:1.2rem;
+}
+.postit-author{
+  font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brun2);opacity:.6;
+  display:flex;align-items:center;gap:.5rem;
+}
+.postit-author::before{content:'—'}
+
+/* ─── HORÁRIOS ─── */
+#horarios{background:var(--manteiga)}
+.hor-grid{
+  display:grid;grid-template-columns:1fr 1.8fr;
+  gap:5rem;align-items:center;
+}
+.hor-ilustra{position:relative;height:380px}
+.hor-frame{
+  width:100%;height:100%;
+  background:#fff;
+  border:8px solid #fff;
+  box-shadow:4px 6px 24px rgba(62,33,16,.1);
+  overflow:hidden;
+  transform:rotate(-2deg);
+  position:relative;
+}
+.hor-frame img{width:100%;height:100%;object-fit:cover}
+.hor-sticker{
+  position:absolute;bottom:-15px;right:-15px;
+  width:100px;height:100px;
+  background:var(--terra);
+  border-radius:50%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:'Caveat';font-weight:700;color:#fff;text-align:center;
+  box-shadow:3px 3px 0 rgba(62,33,16,.2);
+  transform:rotate(8deg);
+  font-size:.85rem;line-height:1.2;
+  padding:.8rem;
+}
+.hor-content .sec-tag{margin-bottom:.8rem}
+.hor-items{margin-top:2rem;display:flex;flex-direction:column;gap:0}
+.hor-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 0;
+  border-bottom:2px dashed rgba(62,33,16,.08);
+}
+.hor-item:last-child{border-bottom:none}
+.hor-day{
+  font-weight:700;font-size:.9rem;color:var(--brun2);
+  display:flex;align-items:center;gap:.6rem;
+}
+.hor-day span{font-size:1rem}
+.hor-time{
+  font-family:'Caveat';font-size:1.3rem;font-weight:700;
+  color:var(--terra);
+}
+.hor-closed{
+  font-family:'Caveat';font-size:1.1rem;font-weight:500;
+  color:var(--muted);font-style:italic;
+}
+.hor-note-box{
+  margin-top:2rem;
+  background:var(--ambar3);
+  border-radius:12px;padding:1.3rem 1.6rem;
+  font-family:'Caveat';font-size:1.1rem;font-weight:600;
+  color:var(--brun);
+  border-left:4px solid var(--ambar);
+  transform:rotate(-.5deg);
+  box-shadow:2px 3px 0 rgba(62,33,16,.1);
+}
+
+/* ─── GALERIA MURAL ─── */
+#galeria{background:var(--papel);overflow:hidden}
+.galeria-header{text-align:center;margin-bottom:3rem}
+.mural{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1.2fr;
+  grid-template-rows:220px 180px;
+  gap:6px;
+}
+.muro{overflow:hidden;position:relative;cursor:none}
+.muro:first-child{grid-row:1/3}
+.muro img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.muro:hover img{transform:scale(1.07)}
+.muro-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(62,33,16,.65) 0%,transparent 55%);
+  opacity:0;transition:opacity .3s;
+  display:flex;align-items:flex-end;padding:1.1rem;
+}
+.muro:hover .muro-ov{opacity:1}
+.muro-lbl{font-family:'Caveat';font-size:1.1rem;font-weight:600;color:#fff}
+
+/* ─── CONTATO ─── */
+#contato{background:var(--manteiga)}
+.cont-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.cont-left p{font-size:.92rem;font-weight:400;line-height:1.9;color:var(--muted);margin-top:1.2rem;margin-bottom:2rem}
+.cdet-list{display:flex;flex-direction:column;gap:1.2rem}
+.cdet{display:flex;gap:.9rem;align-items:flex-start}
+.cdet-ico{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--creme);border:2px dashed var(--ambar3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;flex-shrink:0;
+}
+.cdet-lbl{font-size:.62rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--terra);margin-bottom:.2rem}
+.cdet-val{font-size:.87rem;font-weight:400;color:var(--muted);line-height:1.6}
+.social-row{display:flex;gap:.7rem;margin-top:2rem;padding-top:2rem;border-top:2px dashed var(--creme)}
+.soc{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--brun);color:var(--ambar3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;
+  text-decoration:none;
+  transition:background .2s,transform .2s;
+}
+.soc:hover{background:var(--terra);transform:translateY(-3px) rotate(-5deg)}
+.cform{display:flex;flex-direction:column;gap:.8rem}
+.crow{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.cg{display:flex;flex-direction:column;gap:.4rem}
+.cl{font-family:'Caveat';font-size:.95rem;font-weight:600;color:var(--brun2)}
+.ci,.ct{
+  background:#fff;border:2px solid var(--creme);
+  border-radius:10px;
+  padding:.75rem 1rem;
+  font-family:'Nunito';font-size:.88rem;font-weight:400;
+  color:var(--text);outline:none;
+  transition:border-color .2s,box-shadow .2s;resize:none;
+}
+.ci:focus,.ct:focus{border-color:var(--ambar);box-shadow:0 0 0 3px var(--ambar3)}
+.ci::placeholder,.ct::placeholder{color:var(--pierre,#ccc)}
+.ct{height:110px}
+.csbmt{
+  font-family:'Caveat';font-size:1.2rem;font-weight:700;
+  background:var(--brun);color:var(--ambar3);
+  border:none;border-radius:999px;
+  padding:.7rem 2.2rem;cursor:none;align-self:flex-start;
+  transform:rotate(-1deg);
+  transition:background .2s,transform .2s,box-shadow .2s;
+  box-shadow:3px 3px 0 rgba(62,33,16,.18);
+}
+.csbmt:hover{background:var(--terra);transform:rotate(-1deg) translateY(-2px);box-shadow:4px 6px 0 rgba(62,33,16,.22)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--brun);padding:4rem 0 2rem}
+.ft-inner{
+  display:grid;grid-template-columns:1.8fr 1fr 1fr;
+  gap:4rem;margin-bottom:3rem;
+  padding-bottom:3rem;
+  border-bottom:2px dashed rgba(255,255,255,.08);
+}
+.ft-brand .nlogo{color:var(--ambar2)}
+.ft-brand p{
+  font-size:.83rem;font-weight:300;line-height:1.9;
+  color:rgba(253,247,232,.35);max-width:280px;margin-top:.8rem;
+}
+.ft-brand .social-row{border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem;margin-top:1.5rem}
+.ft-brand .soc{background:rgba(255,255,255,.08);color:rgba(245,216,152,.6)}
+.ft-brand .soc:hover{background:var(--terra)}
+.ft-col h4{
+  font-family:'Caveat';font-size:1.1rem;font-weight:700;
+  color:var(--ambar2);margin-bottom:1.2rem;
+}
+.ft-col ul{list-style:none}
+.ft-col li{margin-bottom:.6rem}
+.ft-col a{
+  font-size:.82rem;font-weight:400;
+  color:rgba(253,247,232,.35);text-decoration:none;
+  transition:color .2s;
+}
+.ft-col a:hover{color:var(--ambar2)}
+.ft-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+}
+.ft-copy{
+  font-family:'Caveat';font-size:1rem;font-weight:500;
+  color:rgba(253,247,232,.2);
+}
+.ft-heart{font-size:.9rem}
+
+/* ─── SCROLL REVEAL ─── */
+.r{opacity:0;transform:translateY(32px);transition:opacity .85s ease,transform .85s ease}
+.r.v{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+.rl{opacity:0;transform:translateX(-30px);transition:opacity .85s,transform .85s}
+.rl.v{opacity:1;transform:translateX(0)}
+.rr{opacity:0;transform:translateX(30px);transition:opacity .85s,transform .85s}
+.rr.v{opacity:1;transform:translateX(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem}
+  nav.s{padding:.7rem 1.5rem}
+  .nlinks,.npedido{display:none}
+  .hero-grid{grid-template-columns:1fr;padding:2rem 2rem 3rem;gap:2rem}
+  .hero-photos{height:320px}
+  .container{padding:0 1.8rem}
+  .about-wrap,.hor-grid,.cont-grid{grid-template-columns:1fr}
+  .today-inner,.specials-grid,.team-grid{grid-template-columns:1fr 1fr}
+  .postits-grid,.vprod-grid{grid-template-columns:1fr 1fr}
+  .mural{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .muro:first-child{grid-row:auto}
+  .ft-inner{grid-template-columns:1fr 1fr}
+  .pol3,.pol4{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- SVG DEFS para handdrawn elements -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path id="squig" d="M0,10 C40,0 80,20 120,10 S200,0 240,10 S320,20 360,10 S440,0 480,10"/>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nlogo">Padaria da Dona Cida<small>Bairro das Acácias · Desde 1987</small></a>
+  <ul class="nlinks">
+    <li><a href="#about">A Nossa Padaria</a></li>
+    <li><a href="#vitrine">Produtos</a></li>
+    <li><a href="#equipe">Equipe</a></li>
+    <li><a href="#horarios">Horários</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <button class="npedido">☎ Fazer Pedido</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="paper-strip top"></div>
+
+  <!-- Background doodles SVG -->
+  <div class="hero-doodles">
+    <svg viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%">
+      <!-- hand-drawn circles -->
+      <circle cx="80" cy="120" r="40" stroke="#D4913A" stroke-width="1.5" stroke-dasharray="4 4" opacity=".2"/>
+      <circle cx="1360" cy="200" r="60" stroke="#B85C38" stroke-width="1.5" stroke-dasharray="3 5" opacity=".15"/>
+      <circle cx="200" cy="750" r="80" stroke="#6B9070" stroke-width="1" stroke-dasharray="4 4" opacity=".12"/>
+      <!-- stars doodles -->
+      <text x="1300" y="700" font-family="serif" font-size="40" fill="#D4913A" opacity=".12">✦</text>
+      <text x="120" y="600" font-family="serif" font-size="28" fill="#B85C38" opacity=".1">✦</text>
+      <text x="700" y="80" font-family="serif" font-size="22" fill="#6B9070" opacity=".12">✦</text>
+      <!-- squiggly line -->
+      <path d="M0 820 Q80 800 160 820 T320 820 T480 820 T640 820 T800 820 T960 820 T1120 820 T1280 820 T1440 820" stroke="#D4913A" stroke-width="1.5" fill="none" opacity=".12"/>
+      <!-- wheat stalks decorative -->
+      <path d="M1350 400 Q1360 350 1370 300 M1365 380 Q1375 370 1385 360 M1365 360 Q1355 350 1345 340" stroke="#D4913A" stroke-width="1.5" opacity=".15" stroke-linecap="round"/>
+      <path d="M1390 430 Q1400 380 1410 330 M1395 410 Q1405 400 1415 390" stroke="#D4913A" stroke-width="1.5" opacity=".12" stroke-linecap="round"/>
+      <!-- dots pattern -->
+      <circle cx="900" cy="150" r="3" fill="#B85C38" opacity=".12"/>
+      <circle cx="950" cy="180" r="2" fill="#B85C38" opacity=".1"/>
+      <circle cx="880" cy="200" r="2.5" fill="#D4913A" opacity=".12"/>
+    </svg>
+  </div>
+
+  <div class="hero-grid">
+    <!-- LEFT -->
+    <div>
+      <div class="hero-tag">☀️ Aberta todo dia, fresquinha desde as 5h30!</div>
+      <h1 class="htitle">
+        Aqui é feito<br>
+        <span class="linha2">com carinho</span>
+        <span class="linha3">de verdade 🍞</span>
+      </h1>
+      <p class="hero-desc">
+        37 anos servindo o bairro. A Dona Cida começou com uma fornada por dia e hoje é impossível imaginar a rua sem o cheiro de pão quentinho saindo pela janela toda manhã.
+      </p>
+      <div class="hero-btns">
+        <a href="#vitrine" class="btn-terra">Ver o que tem hoje</a>
+        <a href="#about" class="btn-link">A história da Dona Cida →</a>
+      </div>
+      <div class="hero-quirks">
+        <div class="quirk"><span>🥖</span> Pão feito na hora</div>
+        <div class="quirk"><span>☕</span> Café coado na flanela</div>
+        <div class="quirk"><span>❤️</span> Atendem todo mundo pelo nome</div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="hero-photos">
+      <div class="open-badge">
+        <div class="ob1">ABERTA</div>
+        <div class="ob2">agora! ✓</div>
+      </div>
+      <div class="polaroid pol1">
+        <img
+          src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80"
+          alt="Pão quentinho"
+          onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#d4913a,#6a3820)'"
+        />
+        <div class="pcap">o pão das 6h 🍞</div>
+      </div>
+      <div class="polaroid pol2">
+        <img
+          src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80"
+          alt="Café coado"
+          onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#2c1505,#6a3820)'"
+        />
+        <div class="pcap">cafézinho coado ☕</div>
+      </div>
+      <div class="polaroid pol3">
+        <img
+          src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80"
+          alt="Croissant"
+          onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#5c3212)'"
+        />
+        <div class="pcap">novidade da semana ✨</div>
+      </div>
+      <div class="polaroid pol4">
+        <img
+          src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=400&q=80"
+          alt="Nossa padaria"
+          onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#8b5020,#3d2010)'"
+        />
+        <div class="pcap">nosso cantinho 🏠</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="paper-strip bot"></div>
+</section>
+
+<!-- HOJE NA PADARIA -->
+<div id="hoje">
+  <div class="hoje-inner">
+    <div class="hoje-label">📋 Hoje tem:</div>
+    <div class="hoje-items">
+      <div class="hoje-chip"><span>🍞</span> Pão de queijo fresquinho</div>
+      <div class="hoje-chip"><span>🥐</span> Croissant de presunto</div>
+      <div class="hoje-chip"><span>🍰</span> Bolo de cenoura com brigadeiro</div>
+      <div class="hoje-chip"><span>🫔</span> Tapioca especial</div>
+      <div class="hoje-chip"><span>☕</span> Café passado na flanela</div>
+      <div class="hoje-chip"><span>🥧</span> Torta de frango — acabou de sair!</div>
+    </div>
+    <a href="#vitrine" class="hoje-cta">Ver tudo →</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-wrap">
+      <div class="about-photo-stack rl">
+        <div class="ap ap1">
+          <img
+            src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=500&q=80"
+            alt="Nossa padaria"
+            onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#5c3d2e,#2a1a0e)'"
+          />
+        </div>
+        <div class="ap ap2">
+          <img
+            src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80"
+            alt="Pão artesanal"
+            onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#6a3820)'"
+          />
+        </div>
+        <div class="ap3">
+          <strong>37</strong>
+          anos de bairro ❤️
+        </div>
+      </div>
+
+      <div class="rr">
+        <div class="sec-tag">A Nossa História</div>
+        <h2 class="stitle">Começou pequenininha,<br>e o <em>coração só cresceu</em></h2>
+        <div style="margin-top:2rem">
+          <p>Em 1987, a Dona Cida montou uma cozinha de 9m² no quintal de casa com um forno a lenha emprestado do vizinho. A primeira fornada foram 12 pãezinhos. Hoje são mais de 400 por manhã.</p>
+          <p>O segredo? Nunca mudou. A Cida acorda às 4h30 da manhã, coloca o avental, e começa a sovar. Sem máquina. Sem pressa. Do jeito que ela aprendeu com a mãe lá em Minas.</p>
+          <p>Aqui todo mundo é tratado igual — seja o médico do 304 ou o menino que compra um pãozinho com o troco da semana. Padaria é isso: lugar de todo mundo.</p>
+        </div>
+        <div class="about-sign">— Cida Nascimento 💛</div>
+        <div class="about-chips">
+          <span class="achip">🌾 Farinha Especial</span>
+          <span class="achip">🤲 Feito à Mão</span>
+          <span class="achip">🔥 Forno Próprio</span>
+          <span class="achip">❤️ Receitas da Família</span>
+          <span class="achip">🏘️ 37 Anos no Bairro</span>
+          <span class="achip">☕ Café Coado na Flanela</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SQUIGGLE -->
+<div class="squiggle" style="background:var(--papel)">
+  <svg viewBox="0 0 1440 20" preserveAspectRatio="none">
+    <path d="M0,10 C60,2 120,18 180,10 S300,2 360,10 S480,18 540,10 S660,2 720,10 S840,18 900,10 S1020,2 1080,10 S1200,18 1260,10 S1380,2 1440,10" stroke="#D4913A" stroke-width="2" fill="none" opacity=".25"/>
+  </svg>
+</div>
+
+<!-- VITRINE -->
+<section id="vitrine">
+  <div class="container">
+    <div class="vitrine-top r">
+      <div class="sec-tag">O que tem na vitrine</div>
+      <h2 class="stitle">Fresquinho saindo<br>do <em>forno agora</em> 🔥</h2>
+      <div class="cat-strip">
+        <button class="catbtn on" data-c="paes">🍞 Pães</button>
+        <button class="catbtn" data-c="salgados">🥐 Salgados</button>
+        <button class="catbtn" data-c="doces">🍰 Doces</button>
+        <button class="catbtn" data-c="bebidas">☕ Bebidas</button>
+      </div>
+    </div>
+
+    <div class="vprod-grid r rd1" id="vpgrid">
+
+      <!-- PÃES -->
+      <div class="vcard vis" data-c="paes">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80" alt="Pão Caseiro" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#5c3212)'"/>
+          <div class="vcard-badge badge-hot">🔥 Mais pedido</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Pão Caseiro da Cida</div>
+          <div class="vcard-desc">Receita de Minas, sovado à mão. Casca fininha, miolo macio que derrete. Sai todo dia às 6h e some antes das 8h.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 8,50</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard vis" data-c="paes">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=500&q=80" alt="Baguete" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#d4a050,#6a3820)'"/>
+          <div class="vcard-badge badge-fav">⭐ Favorito</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Baguete do Bairro</div>
+          <div class="vcard-desc">Crocante, levinha e quentinha. Ótima com manteiga ou para o sanduíche do almoço. Assada de 2 em 2 horas.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 6,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard vis" data-c="paes">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&w=500&q=80" alt="Pão Integral" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#8b5020,#3d2010)'"/>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Pão Integral com Mel</div>
+          <div class="vcard-desc">Farinha integral da moagem local, mel de laranjeira e aveia. Saudável e saboroso do jeito que deve ser.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 14,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <!-- SALGADOS -->
+      <div class="vcard" data-c="salgados">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" alt="Croissant" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#d4903a,#5c3212)'"/>
+          <div class="vcard-badge badge-new">✨ Novidade</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Croissant de Presunto e Queijo</div>
+          <div class="vcard-desc">A Cida aprendeu fazer croissant ano passado e agora virou o favorito da vizinhança. Crocante por fora, derrete por dentro.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 12,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard" data-c="salgados">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1488477181-b5f504aedc0c?auto=format&fit=crop&w=500&q=80" alt="Coxinha" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c4903a,#5c3212)'"/>
+          <div class="vcard-badge badge-hot">🔥 Clássico</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Coxinha de Frango</div>
+          <div class="vcard-desc">Massa fininha e crocante, frango desfiado com muito tempero. Receita do Seu Agenor, o marido da Dona Cida.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 7,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard" data-c="salgados">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1603532648955-039310d9ed75?auto=format&fit=crop&w=500&q=80" alt="Esfiha" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#d4a050,#5c3212)'"/>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Esfiha de Carne</div>
+          <div class="vcard-desc">Massa aberta na mão, carnezinha temperada com cebola, tomate e limão. Sai quentinha o dia todo.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 6,50</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <!-- DOCES -->
+      <div class="vcard" data-c="doces">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=500&q=80" alt="Bolo Cenoura" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#5c3212)'"/>
+          <div class="vcard-badge badge-hot">💛 Quase acabou!</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Bolo de Cenoura com Brigadeiro</div>
+          <div class="vcard-desc">O bolo mais pedido da história da padaria. Fofinho, molhadinho, cobertura generosa. Tem toda terça e quinta.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 9,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard" data-c="doces">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1569864358642-9d1684040f43?auto=format&fit=crop&w=500&q=80" alt="Pastel de nata" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#d4a050,#5c3212)'"/>
+          <div class="vcard-badge badge-fav">⭐ Todo mundo ama</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Pastelzinho de Nata</div>
+          <div class="vcard-desc">Aprendi com a D. Conceição, a vizinha portuguesa. Massa folhada, creme de leite, canela por cima. Simples e perfeito.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 5,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard" data-c="doces">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?auto=format&fit=crop&w=500&q=80" alt="Pudim" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c8a040,#5c3212)'"/>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Pudim de Leite da Casa</div>
+          <div class="vcard-desc">A Dona Cida faz desde os 19 anos. Cremoso, calda de caramelo na medida certa. Tem sexta e sábado somente.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 8,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <!-- BEBIDAS -->
+      <div class="vcard" data-c="bebidas">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=500&q=80" alt="Café" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#2c1505,#0d0500)'"/>
+          <div class="vcard-badge badge-hot">☕ O melhor do bairro</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Café Coado na Flanela</div>
+          <div class="vcard-desc">Café do Sul de Minas, passado na flanela do jeito antigo. Encorpado, sem amargar. Servido quentinho o dia inteiro.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 5,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard" data-c="bebidas">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" alt="Achocolatado" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#3d1a06,#1a0800)'"/>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Achocolatado Quente</div>
+          <div class="vcard-desc">Chocolate em pó de qualidade no leite integral esquentadinho. O preferido das crianças do bairro toda manhã.</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 7,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+      <div class="vcard" data-c="bebidas">
+        <div class="vcard-img">
+          <img src="https://images.unsplash.com/photo-1545987796-200677ee1011?auto=format&fit=crop&w=500&q=80" alt="Vitamina" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#6a3820)'"/>
+          <div class="vcard-badge badge-new">🌿 Da horta</div>
+        </div>
+        <div class="vcard-body">
+          <div class="vcard-name">Vitamina de Banana com Aveia</div>
+          <div class="vcard-desc">Banana da horta da D. Cida, aveia, mel e leite. Café da manhã completo numa caneça só. Muito pedida!</div>
+          <div class="vcard-ft"><div class="vcard-price">R$ 9,00</div><button class="vcard-add">+</button></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUADRO DE ESPECIAIS -->
+<section id="quadro">
+  <div class="quadro-inner">
+    <div class="quadro-deco r">✦ cardápio do dia ✦</div>
+    <h2 class="quadro-title r rd1">O Quadrinho<br>da Semana</h2>
+    <p class="quadro-sub r rd1">"Escrevo todo dia antes de abrir. Com giz mesmo, do jeito que aprendi com minha mãe."</p>
+    <div class="quadro-frame r rd2">
+      <div class="specials-grid">
+        <div class="special-item">
+          <div class="sp-cat">☀️ Manhã</div>
+          <div class="sp-row"><span class="sp-name">Café + Pão de Queijo</span><span class="sp-price">R$ 10</span></div>
+          <div class="sp-row"><span class="sp-name">Vitamina + Baguete</span><span class="sp-price">R$ 14</span></div>
+          <div class="sp-row"><span class="sp-name">Café + 2 Salgados</span><span class="sp-price">R$ 16</span></div>
+          <div class="sp-row"><span class="sp-name">Combo Família (4 pessoas)</span><span class="sp-price">R$ 45</span></div>
+        </div>
+        <div class="special-item">
+          <div class="sp-cat">🌤 Tarde</div>
+          <div class="sp-row"><span class="sp-name">Café + Bolo do Dia</span><span class="sp-price">R$ 12</span></div>
+          <div class="sp-row"><span class="sp-name">2 Pastelzinhos + Café</span><span class="sp-price">R$ 13</span></div>
+          <div class="sp-row"><span class="sp-name">Misto Quente + Suco</span><span class="sp-price">R$ 18</span></div>
+          <div class="sp-row"><span class="sp-name">Combo Criança ❤️</span><span class="sp-price">R$ 11</span></div>
+        </div>
+        <div class="special-item">
+          <div class="sp-cat">🎂 Encomendas</div>
+          <div class="sp-row"><span class="sp-name">Bolo Simples 1kg</span><span class="sp-price">R$ 60</span></div>
+          <div class="sp-row"><span class="sp-name">Bolo Decorado 2kg</span><span class="sp-price">R$ 120</span></div>
+          <div class="sp-row"><span class="sp-name">Cesta de Café (2 pessoas)</span><span class="sp-price">R$ 85</span></div>
+          <div class="sp-row"><span class="sp-name">Cesta Família (4 pessoas)</span><span class="sp-price">R$ 140</span></div>
+        </div>
+      </div>
+      <div class="quadro-note">* preços podem mudar conforme o que tem na feirinha. Pergunte pra gente! 😊</div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section id="equipe">
+  <div class="container">
+    <div class="equipe-header r">
+      <div class="sec-tag">Nossa Família</div>
+      <h2 class="stitle">Quem faz a <em>magia acontecer</em> todo dia 🙌</h2>
+      <p style="font-size:.9rem;color:var(--muted);margin-top:.8rem;max-width:500px;margin-left:auto;margin-right:auto">Cada um deles é parte do bairro. Muitos clientes são amigos de infância da equipe — é isso que faz esse lugar ser único.</p>
+    </div>
+    <div class="team-grid r rd1">
+
+      <div class="tcard">
+        <div class="tcard-frame">
+          <div class="tcard-ring"></div>
+          <div class="tcard-photo">
+            <img
+              src="https://images.unsplash.com/photo-1607631568010-85f174fa3bd6?auto=format&fit=crop&w=300&h=300&q=80"
+              alt="Dona Cida"
+              onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#d4913a,#6a3820)'"
+            />
+          </div>
+        </div>
+        <div class="tcard-name">Dona Cida</div>
+        <div class="tcard-role">Fundadora & Padeira-Chefe</div>
+        <div class="tcard-bio">Acorda às 4h30 todo dia e nunca faltou um domingo. Sabe o nome de cada cliente — e do filho, e do cachorro.</div>
+        <div class="tcard-tempo">🏅 37 anos de padaria</div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-frame">
+          <div class="tcard-ring" style="animation-direction:reverse"></div>
+          <div class="tcard-photo">
+            <img
+              src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=300&h=300&q=80"
+              alt="Seu Agenor"
+              onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#5c3d2e,#2a1a0e)'"
+            />
+          </div>
+        </div>
+        <div class="tcard-name">Seu Agenor</div>
+        <div class="tcard-role">Mestre dos Salgados</div>
+        <div class="tcard-bio">Marido da Cida há 40 anos. Cuida dos salgados e do forno a lenha. Ninguém faz coxinha como ele.</div>
+        <div class="tcard-tempo">🍳 40 anos sovando</div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-frame">
+          <div class="tcard-ring"></div>
+          <div class="tcard-photo">
+            <img
+              src="https://images.unsplash.com/photo-1594744803329-e0b24ba7d7bd?auto=format&fit=crop&w=300&h=300&q=80"
+              alt="Janinha"
+              onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#5c3212)'"
+            />
+          </div>
+        </div>
+        <div class="tcard-name">Janinha</div>
+        <div class="tcard-role">Atendente & Filha da Casa</div>
+        <div class="tcard-bio">Filha da Cida. Cresceu atrás do balcão e hoje é o sorriso da padaria. Faz os bolos decorados e o café da manhã.</div>
+        <div class="tcard-tempo">☕ 12 anos na padaria</div>
+      </div>
+
+      <div class="tcard">
+        <div class="tcard-frame">
+          <div class="tcard-ring" style="animation-direction:reverse;animation-duration:8s"></div>
+          <div class="tcard-photo">
+            <img
+              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300&h=300&q=80"
+              alt="Binha"
+              onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#a8c9ab,#6b9070)'"
+            />
+          </div>
+        </div>
+        <div class="tcard-name">Binha</div>
+        <div class="tcard-role">Doceira & Neta da Cida</div>
+        <div class="tcard-bio">18 anos, estudante de gastronomia e orgulho da família. Trouxe os macarons e os novos bolos para a vitrine.</div>
+        <div class="tcard-tempo">🧁 A nova geração</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS (POST-ITS) -->
+<section id="depoimentos">
+  <div class="dep-bg-txt">❤️</div>
+  <div class="container">
+    <div class="dep-header r">
+      <div class="sec-tag">O que o bairro fala</div>
+      <h2 class="stitle">Gente boa que <em>a gente ama</em> de verdade 💛</h2>
+      <p style="font-size:.9rem;color:var(--muted);margin-top:.8rem">São 37 anos de amizade. Aqui vão alguns recados que a Dona Cida guarda com carinho no mural da padaria:</p>
+    </div>
+    <div class="postits-grid r rd1">
+      <div class="postit pi-amarelo">
+        <div class="postit-stars">★★★★★</div>
+        <div class="postit-text">"Minha mãe vinha aqui todo dia. Hoje venho eu. E minha filha já pede o pãozinho com manteiga igual a minha mãe pedia. 30 anos de família na Dona Cida. ❤️"</div>
+        <div class="postit-author">Márcia, moradora do bairro</div>
+      </div>
+      <div class="postit pi-rosa">
+        <div class="postit-stars">★★★★★</div>
+        <div class="postit-text">"Me mudei pro bairro ano passado. No primeiro dia, a Dona Cida já sabia meu nome. Agora ela já sabe o pedido antes de eu chegar na fila!"</div>
+        <div class="postit-author">Thiago, novo vizinho</div>
+      </div>
+      <div class="postit pi-verde">
+        <div class="postit-stars">★★★★★</div>
+        <div class="postit-text">"O café é o melhor da cidade — e olha que tenho três filhos baristas! Tem dias que venho só pra tomar o cafezinho e bater papo com o Seu Agenor."</div>
+        <div class="postit-author">Prof. Renato, escola do bairro</div>
+      </div>
+      <div class="postit pi-azul">
+        <div class="postit-stars">★★★★★</div>
+        <div class="postit-text">"Num dia difícil a Dona Cida me deu um pão quentinho de graça e disse 'toma, isso passa'. Nunca esqueci. Aqui é mais que padaria, é família."</div>
+        <div class="postit-author">Ana Lúcia, cliente de sempre</div>
+      </div>
+      <div class="postit pi-laranja">
+        <div class="postit-stars">★★★★★</div>
+        <div class="postit-text">"Encomendar o bolo de aniversário da Binha foi a melhor decisão. Todo mundo perguntou onde comprei e ficaram surpresos que era ali do bairro mesmo!"</div>
+        <div class="postit-author">Carlinhos, pai do Pedrinho</div>
+      </div>
+      <div class="postit pi-lilas">
+        <div class="postit-stars">★★★★★</div>
+        <div class="postit-text">"Moro a 4 quadras e venho a pé todo dia. Já perdi 3kg caminhando pra cá, mas ganhei 4 do pão com manteiga. Acho que deu empate. 😂 Não largo por nada!"</div>
+        <div class="postit-author">Dona Filomena, 70 anos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HORÁRIOS -->
+<section id="horarios">
+  <div class="container">
+    <div class="hor-grid">
+      <div class="rl">
+        <div class="hor-frame">
+          <img
+            src="https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=600&q=80"
+            alt="Nossa padaria"
+            onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#5c3d2e,#2a1a0e)'"
+          />
+        </div>
+        <div class="hor-sticker">Forno aceso desde 1987!</div>
+      </div>
+      <div class="rr">
+        <div class="sec-tag">Quando a gente tá por aqui</div>
+        <h2 class="stitle">Horários<br>de <em>funcionamento</em></h2>
+        <div class="hor-items">
+          <div class="hor-item">
+            <div class="hor-day"><span>☀️</span> Segunda a Sexta</div>
+            <div class="hor-time">5h30 — 20h</div>
+          </div>
+          <div class="hor-item">
+            <div class="hor-day"><span>🌤</span> Sábado</div>
+            <div class="hor-time">5h30 — 16h</div>
+          </div>
+          <div class="hor-item">
+            <div class="hor-day"><span>🌅</span> Domingo</div>
+            <div class="hor-time">6h — 13h</div>
+          </div>
+          <div class="hor-item">
+            <div class="hor-day"><span>😴</span> Feriado</div>
+            <div class="hor-closed">Depende do humor do Seu Agenor...</div>
+          </div>
+        </div>
+        <div class="hor-note-box">
+          🎂 Encomendas de bolos e cestas: ligue com pelo menos 2 dias de antecedência. <strong>WhatsApp: (11) 94455-6677</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <div class="container">
+    <div class="galeria-header r">
+      <div class="sec-tag">Mural de Fotos</div>
+      <h2 class="stitle">Um pouquinho do<br>nosso <em>dia a dia</em> 📸</h2>
+    </div>
+    <div class="mural r rd1">
+      <div class="muro">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=700&q=80" alt="Interior padaria" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#5c3d2e,#2a1a0e)'"/>
+        <div class="muro-ov"><div class="muro-lbl">O cantinho da gente 🏠</div></div>
+      </div>
+      <div class="muro">
+        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80" alt="Pão" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c47a30,#5c3212)'"/>
+        <div class="muro-ov"><div class="muro-lbl">Saindo do forno 🔥</div></div>
+      </div>
+      <div class="muro">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=400&q=80" alt="Café" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#2c1505,#0d0500)'"/>
+        <div class="muro-ov"><div class="muro-lbl">O cafezinho ☕</div></div>
+      </div>
+      <div class="muro">
+        <img src="https://images.unsplash.com/photo-1603532648955-039310d9ed75?auto=format&fit=crop&w=400&q=80" alt="Bolo" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#d4a050,#5c3212)'"/>
+        <div class="muro-ov"><div class="muro-lbl">Bolo do dia 🎂</div></div>
+      </div>
+      <div class="muro">
+        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=400&q=80" alt="Salgados" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#c8a040,#5c3212)'"/>
+        <div class="muro-ov"><div class="muro-lbl">Da vitrine ❤️</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div class="cont-grid">
+      <div class="rl">
+        <div class="sec-tag">A gente tá aqui</div>
+        <h2 class="stitle">Vem tomar um<br>café com a <em>gente!</em> ☕</h2>
+        <p>A porta tá sempre aberta. Pode chegar, sentar, pedir o café e bater um papo. É assim que a gente gosta.</p>
+        <div class="cdet-list">
+          <div class="cdet">
+            <div class="cdet-ico">📍</div>
+            <div><div class="cdet-lbl">Onde a gente tá</div><div class="cdet-val">Rua das Acácias, 112 — Bairro das Acácias<br>São Paulo · SP</div></div>
+          </div>
+          <div class="cdet">
+            <div class="cdet-ico">📞</div>
+            <div><div class="cdet-lbl">Liga pra gente</div><div class="cdet-val">(11) 94455-6677 (WhatsApp também!)</div></div>
+          </div>
+          <div class="cdet">
+            <div class="cdet-ico">🕐</div>
+            <div><div class="cdet-lbl">Quando tamos por aqui</div><div class="cdet-val">Seg–Sex: 5h30–20h · Sáb: 5h30–16h · Dom: 6h–13h</div></div>
+          </div>
+          <div class="cdet">
+            <div class="cdet-ico">📸</div>
+            <div><div class="cdet-lbl">Redes Sociais</div><div class="cdet-val">@padariadedonacida — vem ver o dia a dia!</div></div>
+          </div>
+        </div>
+        <div class="social-row">
+          <a href="#" class="soc">ig</a>
+          <a href="#" class="soc">wa</a>
+          <a href="#" class="soc">fb</a>
+          <a href="#" class="soc">tk</a>
+        </div>
+      </div>
+      <div class="rr">
+        <div style="margin-bottom:1.5rem">
+          <div class="sec-tag">Manda uma mensagem</div>
+          <p style="font-size:.88rem;color:var(--muted);line-height:1.85;margin-top:.5rem">Encomendas, dúvidas, elogios ou só pra dizer oi — a Dona Cida responde pessoalmente cada mensagem 😊</p>
+        </div>
+        <div class="cform">
+          <div class="crow">
+            <div class="cg"><label class="cl">Seu nome</label><input class="ci" type="text" placeholder="Como você se chama?"/></div>
+            <div class="cg"><label class="cl">Telefone</label><input class="ci" type="tel" placeholder="(11) 9xxxx-xxxx"/></div>
+          </div>
+          <div class="cg"><label class="cl">O que você quer? 😊</label><input class="ci" type="text" placeholder="Encomenda, dúvida, elogio..."/></div>
+          <div class="cg"><label class="cl">Conta mais!</label><textarea class="ct" placeholder="Pode mandar um textão, a gente lê tudo com carinho..."></textarea></div>
+          <button class="csbmt" id="csbmt">Mandar mensagem 💛</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft-inner">
+      <div class="ft-brand">
+        <a href="#" class="nlogo" style="color:var(--ambar2)">Padaria da Dona Cida<small>Bairro das Acácias · Desde 1987</small></a>
+        <p style="margin-top:.8rem">37 anos acordando cedo pra deixar o seu dia mais gostoso. Com amor de família, do começo ao fim. 🍞</p>
+        <div class="social-row">
+          <a href="#" class="soc">ig</a>
+          <a href="#" class="soc">wa</a>
+          <a href="#" class="soc">fb</a>
+          <a href="#" class="soc">tk</a>
+        </div>
+      </div>
+      <div class="ft-col">
+        <h4>Na Padaria</h4>
+        <ul>
+          <li><a href="#about">A Nossa História</a></li>
+          <li><a href="#vitrine">O que tem na vitrine</a></li>
+          <li><a href="#quadro">Cardápio do dia</a></li>
+          <li><a href="#equipe">A nossa equipe</a></li>
+          <li><a href="#galeria">Mural de fotos</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Vem visitar</h4>
+        <ul>
+          <li><a href="#">Seg–Sex: 5h30 às 20h</a></li>
+          <li><a href="#">Sábado: 5h30 às 16h</a></li>
+          <li><a href="#">Domingo: 6h às 13h</a></li>
+          <li><a href="#">Rua das Acácias, 112</a></li>
+          <li><a href="#">(11) 94455-6677 📱</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <div class="ft-copy">© 2024 Padaria da Dona Cida · Feito com <span class="ft-heart">❤️</span> desde 1987 · São Paulo</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+(function a(){rx+=(mx-rx)*.13;ry+=(my-ry)*.13;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(a)})();
+
+// NAV SCROLL
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('s',scrollY>70));
+
+// CATEGORY TABS
+document.querySelectorAll('.catbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.catbtn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    const c=btn.dataset.c;
+    document.querySelectorAll('.vcard').forEach(card=>{
+      const show=card.dataset.c===c;
+      card.style.display=show?'block':'none';
+      if(show)setTimeout(()=>card.classList.add('vis'),10);
+      else card.classList.remove('vis');
+    });
+  });
+});
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}
+  });
+},{threshold:.1});
+document.querySelectorAll('.r,.rl,.rr').forEach(el=>obs.observe(el));
+
+// FORM SUBMIT
+document.getElementById('csbmt').addEventListener('click',function(){
+  this.textContent='✓ Mensagem enviada! A Dona Cida agradece 💛';
+  this.style.background='var(--sage)';
+  setTimeout(()=>{
+    this.textContent='Mandar mensagem 💛';
+    this.style.background='';
+  },4000);
+});
+
+// ADD BUTTONS
+document.querySelectorAll('.vcard-add').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    const orig=this.textContent;
+    this.textContent='✓';
+    this.style.background='var(--sage)';
+    setTimeout(()=>{
+      this.textContent=orig;
+      this.style.background='';
+    },1200);
+  });
+});
+
+// NAV ACTIONS
+document.querySelector('.npedido').addEventListener('click',()=>
+  document.getElementById('contato').scrollIntoView({behavior:'smooth'})
+);
+</script>
+</body>
+</html>

@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Íris — Clínica Veterinária</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ══════════════════════════════
+   TOKENS
+══════════════════════════════ */
+:root {
+  --cream:      #FDF7F2;
+  --white:      #FFFCF9;
+  --blush:      #EFB8C4;
+  --rose:       #C96B7D;
+  --rose-deep:  #9B4A5E;
+  --rose-lt:    #FBE9ED;
+  --sage:       #7A9E82;
+  --sage-lt:    #EDF4EE;
+  --sand:       #E5D0BC;
+  --mauve:      #B89BA8;
+  --lavender:   #C0AECF;
+  --lav-lt:     #F5F0FA;
+  --gold:       #C4956A;
+  --gold-lt:    #FAF0E6;
+  --text:       #2C2037;
+  --text-mid:   #7A6876;
+  --text-lt:    #B0A0AD;
+  --border:     rgba(180,140,155,0.2);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Jost',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  overflow-x:hidden;
+}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--rose-lt);}
+::-webkit-scrollbar-thumb{background:var(--blush);border-radius:5px;}
+
+/* ══════════════════════════════
+   REVEAL
+══════════════════════════════ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.on{opacity:1;transform:none;}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-l.on{opacity:1;transform:none;}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-r.on{opacity:1;transform:none;}
+.fade{opacity:0;transition:opacity 1s ease;}
+.fade.on{opacity:1;}
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:rgba(253,247,242,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 3rem;
+  height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .3s;
+}
+nav.scrolled{box-shadow:0 4px 30px rgba(44,32,55,0.06);}
+
+.nav-logo{
+  display:flex;align-items:center;gap:.8rem;
+  text-decoration:none;
+}
+.logo-mark{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--blush),var(--rose));
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;
+}
+.logo-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:600;
+  color:var(--text);letter-spacing:.02em;
+  line-height:1;
+}
+.logo-name sub{
+  display:block;font-family:'Jost',sans-serif;
+  font-size:.58rem;font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text-mid);margin-top:2px;vertical-align:baseline;
+}
+
+.nav-links{display:flex;align-items:center;gap:.2rem;list-style:none;}
+.nav-links a{
+  font-size:.84rem;font-weight:400;letter-spacing:.03em;
+  color:var(--text-mid);text-decoration:none;
+  padding:.4rem .85rem;border-radius:50px;
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover{color:var(--rose);background:var(--rose-lt);}
+.nav-emergency-pill{
+  display:flex;align-items:center;gap:.45rem;
+  font-size:.76rem;font-weight:600;letter-spacing:.04em;
+  color:var(--rose-deep);
+  background:var(--rose-lt);border:1px solid var(--blush);
+  padding:.35rem .9rem;border-radius:50px;
+}
+.e-dot{width:7px;height:7px;background:var(--rose);border-radius:50%;animation:blink 1.8s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.2;}}
+.nav-cta{
+  background:var(--rose);color:white!important;
+  border-radius:50px;padding:.45rem 1.3rem!important;
+  font-weight:500!important;letter-spacing:.03em;
+  transition:background .25s,transform .2s!important;
+  box-shadow:0 4px 16px rgba(201,107,125,.3);
+}
+.nav-cta:hover{background:var(--rose-deep)!important;transform:translateY(-1px)!important;}
+
+/* ══════════════════════════════
+   HERO — centered editorial
+══════════════════════════════ */
+#hero{
+  background:var(--white);
+  min-height:calc(100vh - 68px);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:5rem 2rem 3rem;
+  text-align:center;
+}
+
+/* soft mesh gradient bg */
+#hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 15% 20%, rgba(239,184,196,.22) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(192,174,207,.18) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(229,208,188,.12) 0%,transparent 70%);
+}
+
+/* floating petals */
+.petal{
+  position:absolute;font-size:1.2rem;
+  animation:drift ease-in-out infinite;
+  opacity:.5;pointer-events:none;user-select:none;
+}
+@keyframes drift{
+  0%,100%{transform:translateY(0) rotate(-8deg);}
+  50%{transform:translateY(-20px) rotate(8deg);}
+}
+
+.hero-eyebrow{
+  position:relative;z-index:2;
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:2rem;
+  animation:fade-up .8s ease both;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';display:block;width:30px;height:1px;background:var(--blush);
+}
+@keyframes fade-up{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+
+.hero-h1{
+  position:relative;z-index:2;
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.2rem,6vw,6.5rem);
+  font-weight:300;line-height:1.05;
+  color:var(--text);
+  margin-bottom:1.6rem;
+  animation:fade-up .8s ease both .15s;
+}
+.hero-h1 em{
+  font-style:italic;font-weight:400;
+  color:var(--rose);display:block;
+}
+
+.hero-p{
+  position:relative;z-index:2;
+  font-size:1rem;line-height:1.9;
+  color:var(--text-mid);max-width:460px;
+  margin:0 auto 2.5rem;font-weight:400;
+  animation:fade-up .8s ease both .3s;
+}
+
+.hero-btns{
+  position:relative;z-index:2;
+  display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;
+  margin-bottom:4rem;
+  animation:fade-up .8s ease both .45s;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:'Jost',sans-serif;font-weight:500;
+  font-size:.88rem;letter-spacing:.04em;
+  padding:.78rem 1.8rem;border-radius:50px;
+  text-decoration:none;transition:all .25s;cursor:pointer;border:none;
+}
+.btn-rose{background:var(--rose);color:white;box-shadow:0 6px 20px rgba(201,107,125,.35);}
+.btn-rose:hover{background:var(--rose-deep);transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,107,125,.45);}
+.btn-outline-rose{background:transparent;color:var(--rose);border:1.5px solid var(--blush);}
+.btn-outline-rose:hover{background:var(--rose-lt);}
+.btn-sage{background:var(--sage);color:white;box-shadow:0 6px 20px rgba(122,158,130,.35);}
+.btn-sage:hover{background:#618467;transform:translateY(-2px);}
+.btn-outline-sand{background:transparent;color:var(--text-mid);border:1.5px solid var(--sand);}
+.btn-outline-sand:hover{background:var(--gold-lt);}
+.btn-gold{background:var(--gold);color:white;box-shadow:0 6px 20px rgba(196,149,106,.35);}
+.btn-gold:hover{background:#A87B52;transform:translateY(-2px);}
+
+/* hero photo — circular + decorative rings */
+.hero-photo-zone{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  animation:fade-up .9s ease both .5s;
+}
+.hero-ring{
+  position:absolute;border-radius:50%;
+  border:1px solid;animation:spin-ring linear infinite;
+}
+.ring1{width:360px;height:360px;border-color:rgba(239,184,196,.4);animation-duration:30s;}
+.ring2{width:430px;height:430px;border-color:rgba(192,174,207,.25);animation-duration:45s;animation-direction:reverse;}
+.ring3{width:500px;height:500px;border-color:rgba(229,208,188,.2);animation-duration:60s;}
+@keyframes spin-ring{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+
+/* ring dots */
+.ring1::before{
+  content:'✿';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  font-size:.9rem;color:var(--blush);
+}
+.ring2::after{
+  content:'✦';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+  font-size:.8rem;color:var(--lavender);
+}
+
+.hero-circle{
+  width:300px;height:300px;border-radius:50%;overflow:hidden;
+  border:3px solid var(--white);
+  box-shadow:0 20px 60px rgba(201,107,125,.2),0 0 0 8px rgba(239,184,196,.15);
+  position:relative;z-index:2;
+}
+.hero-circle img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* floating info cards */
+.hero-float{
+  position:absolute;z-index:3;
+  background:var(--white);border-radius:14px;
+  padding:.9rem 1.2rem;
+  box-shadow:0 10px 40px rgba(44,32,55,.1);
+  border:1px solid var(--border);
+  display:flex;align-items:center;gap:.7rem;
+  animation:float-badge 5s ease-in-out infinite;
+}
+@keyframes float-badge{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.hf1{left:-60px;top:30px;animation-delay:-1s;}
+.hf2{right:-60px;bottom:40px;animation-delay:-2.5s;}
+.hf-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.hf-rose{background:var(--rose-lt);}
+.hf-sage{background:var(--sage-lt);}
+.hf-text strong{display:block;font-size:.78rem;font-weight:600;color:var(--text);}
+.hf-text span{font-size:.68rem;color:var(--text-lt);}
+
+/* hero stats strip */
+.hero-stats{
+  position:relative;z-index:2;
+  display:flex;justify-content:center;gap:3.5rem;flex-wrap:wrap;
+  padding:2.5rem 0 0;border-top:1px solid var(--border);
+  width:100%;max-width:700px;
+  animation:fade-up 1s ease both .65s;
+}
+.stat{}
+.stat strong{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.4rem;font-weight:400;color:var(--rose);display:block;line-height:1;
+}
+.stat span{font-size:.74rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--text-lt);}
+
+/* ══════════════════════════════
+   DIVIDER — thin botanical line
+══════════════════════════════ */
+.divider{
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:2.5rem 0;
+  color:var(--blush);font-size:.9rem;letter-spacing:.5em;
+  border-top:1px solid var(--border);
+}
+.divider::before,.divider::after{
+  content:'';flex:1;max-width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--blush),transparent);
+}
+
+/* ══════════════════════════════
+   ABOUT
+══════════════════════════════ */
+#about{background:var(--white);padding:7rem 3rem;}
+.about-wrap{max-width:1140px;margin:0 auto;}
+
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+.about-photos-soft{position:relative;height:520px;}
+
+.soft-photo{
+  position:absolute;border-radius:20px;overflow:hidden;
+  box-shadow:0 20px 50px rgba(44,32,55,.1);
+}
+.soft-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.soft-photo:hover img{transform:scale(1.04);}
+.sp1{width:280px;height:360px;top:0;left:0;}
+.sp2{width:220px;height:270px;bottom:0;right:20px;
+  border:3px solid var(--white);box-shadow:0 15px 40px rgba(201,107,125,.15);}
+
+.about-deco{
+  position:absolute;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;font-size:1.8rem;
+}
+.ad1{
+  width:90px;height:90px;
+  top:44%;left:54%;transform:translate(-50%,-50%);
+  background:var(--rose-lt);
+  border:2px solid var(--blush);
+  box-shadow:0 10px 30px rgba(201,107,125,.2);
+  animation:breathe 4s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.08);}}
+
+.about-ribbon{
+  position:absolute;bottom:15px;left:-15px;
+  background:var(--sage);color:white;
+  border-radius:12px;padding:1rem 1.4rem;
+  box-shadow:0 10px 30px rgba(122,158,130,.3);
+  font-size:.82rem;font-weight:500;
+  text-align:center;line-height:1.5;
+}
+.about-ribbon strong{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:400;
+}
+
+.about-text .eyebrow{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:1rem;
+}
+.about-text .eyebrow::before{content:'';width:22px;height:1px;background:var(--blush);}
+.about-text h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,3.5vw,3.2rem);font-weight:300;
+  color:var(--text);line-height:1.2;margin-bottom:1.4rem;
+}
+.about-text h2 em{font-style:italic;color:var(--rose);}
+.about-text p{font-size:.96rem;color:var(--text-mid);line-height:1.95;margin-bottom:1rem;}
+
+.team-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-top:2rem;}
+.team-chip{
+  display:flex;align-items:center;gap:.75rem;
+  background:var(--cream);border-radius:12px;padding:1rem;
+  border:1px solid var(--border);transition:border-color .2s,box-shadow .2s;
+}
+.team-chip:hover{border-color:var(--blush);box-shadow:0 4px 20px rgba(201,107,125,.08);}
+.tc-av{
+  width:44px;height:44px;border-radius:50%;overflow:hidden;
+  background:var(--rose-lt);display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.tc-info strong{display:block;font-size:.84rem;font-weight:600;color:var(--text);}
+.tc-info span{font-size:.72rem;color:var(--text-lt);}
+
+/* ══════════════════════════════
+   GALLERY — 3-col masonry feel
+══════════════════════════════ */
+#gallery{background:var(--cream);padding:7rem 3rem;}
+.gallery-wrap{max-width:1140px;margin:0 auto;}
+.gallery-header{text-align:center;margin-bottom:3.5rem;}
+.gallery-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);font-weight:300;
+  color:var(--text);margin-bottom:.7rem;
+}
+.gallery-header h2 em{font-style:italic;color:var(--rose);}
+.gallery-header p{font-size:.93rem;color:var(--text-mid);line-height:1.75;max-width:440px;margin:0 auto;}
+
+.gallery-masonry{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:240px 180px;
+  gap:.9rem;
+}
+.g-item{
+  border-radius:16px;overflow:hidden;position:relative;
+  box-shadow:0 4px 20px rgba(44,32,55,.07);
+  cursor:pointer;
+}
+.g-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease,filter .4s ease;}
+.g-item:hover img{transform:scale(1.07);filter:brightness(0.95);}
+.g-item:nth-child(1){grid-row:1/3;}
+.g-item:nth-child(5){grid-column:2/4;}
+
+.g-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(44,32,55,.65) 0%,transparent 55%);
+  opacity:0;transition:opacity .35s;
+  display:flex;align-items:flex-end;padding:1.2rem;
+}
+.g-item:hover .g-overlay{opacity:1;}
+.g-caption strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:white;}
+.g-caption span{font-size:.75rem;color:rgba(255,255,255,.75);}
+
+/* ══════════════════════════════
+   SERVICES — horizontal list
+══════════════════════════════ */
+#services{background:var(--rose-lt);padding:7rem 3rem;}
+.services-wrap{max-width:1140px;margin:0 auto;}
+.services-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:3rem;align-items:end;margin-bottom:4rem;
+}
+.services-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,3.5vw,3.2rem);font-weight:300;
+  color:var(--text);line-height:1.2;
+}
+.services-header h2 em{font-style:italic;color:var(--rose);}
+.services-header p{font-size:.93rem;color:var(--text-mid);line-height:1.8;}
+.services-header a{margin-top:1.2rem;display:inline-flex;}
+
+.svc-list{display:flex;flex-direction:column;gap:.8rem;}
+.svc-row{
+  background:var(--white);border-radius:16px;
+  padding:1.6rem 2rem;
+  display:flex;align-items:center;gap:2rem;
+  border:1px solid rgba(201,107,125,.1);
+  transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+.svc-row:hover{
+  border-color:var(--blush);
+  box-shadow:0 8px 30px rgba(201,107,125,.1);
+  transform:translateX(6px);
+}
+.svc-ico{
+  width:56px;height:56px;border-radius:14px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+}
+.ic-rose  {background:var(--rose-lt);}
+.ic-sage  {background:var(--sage-lt);}
+.ic-lav   {background:var(--lav-lt);}
+.ic-gold  {background:var(--gold-lt);}
+.ic-sand  {background:#F8F0E8;}
+.ic-mauve {background:#F4EEF2;}
+.ic-blush {background:#FDE8ED;}
+.ic-teal  {background:#E6F6F4;}
+.ic-cream {background:var(--cream);}
+
+.svc-content{flex:1;}
+.svc-tag{
+  display:inline-block;font-size:.66rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:.2rem .7rem;border-radius:50px;margin-bottom:.4rem;
+}
+.tag-rose  {background:var(--rose-lt);color:var(--rose-deep);}
+.tag-sage  {background:var(--sage-lt);color:#4A7550;}
+.tag-lav   {background:var(--lav-lt);color:#7A60A0;}
+.tag-gold  {background:var(--gold-lt);color:#8A6030;}
+.tag-sand  {background:#F8F0E8;color:#8A6840;}
+.tag-red   {background:#FEE8E8;color:#C04040;}
+
+.svc-row h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:600;color:var(--text);margin-bottom:.3rem;
+}
+.svc-row p{font-size:.85rem;color:var(--text-mid);line-height:1.7;}
+.svc-right{text-align:right;flex-shrink:0;min-width:100px;}
+.svc-price{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;color:var(--rose);margin-bottom:.3rem;
+}
+.svc-badge{
+  display:inline-block;font-size:.65rem;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;
+  background:#FEE8E8;color:#C04040;
+  padding:.2rem .6rem;border-radius:50px;
+}
+
+/* ══════════════════════════════
+   SCHEDULE — elegant card pair
+══════════════════════════════ */
+#schedule{background:var(--white);padding:7rem 3rem;}
+.schedule-wrap{max-width:1000px;margin:0 auto;}
+.schedule-header{text-align:center;margin-bottom:3.5rem;}
+.schedule-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3rem);font-weight:300;color:var(--text);margin-bottom:.6rem;
+}
+.schedule-header p{font-size:.93rem;color:var(--text-mid);line-height:1.75;}
+
+.schedule-pair{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+
+.hours-soft{
+  background:var(--cream);border-radius:20px;padding:2.5rem;
+  border:1px solid var(--border);
+}
+.hours-soft h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:.5rem;
+}
+.hours-soft > p{font-size:.84rem;color:var(--text-lt);margin-bottom:1.8rem;}
+.hour-list{list-style:none;}
+.h-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.85rem 0;border-bottom:1px solid rgba(180,140,155,.12);
+}
+.h-row:last-child{border-bottom:none;}
+.h-day{
+  display:flex;align-items:center;gap:.6rem;
+  font-size:.88rem;font-weight:400;color:var(--text);
+}
+.h-dot{width:7px;height:7px;border-radius:50%;}
+.open-dot{background:var(--sage);}
+.part-dot{background:var(--gold);}
+.clos-dot{background:var(--mauve);}
+.h-time{
+  font-size:.8rem;font-weight:500;
+  padding:.22rem .8rem;border-radius:50px;letter-spacing:.02em;
+}
+.ht-open{background:var(--sage-lt);color:#4A7550;}
+.ht-part{background:var(--gold-lt);color:#8A6030;}
+.ht-24{background:var(--rose-lt);color:var(--rose-deep);}
+.ht-clos{background:var(--cream);color:var(--text-lt);}
+
+.agenda-soft{
+  background:linear-gradient(145deg,var(--rose-lt),var(--lav-lt));
+  border-radius:20px;padding:2.5rem;
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.agenda-soft::after{
+  content:'✿';position:absolute;
+  right:-10px;bottom:-20px;font-size:7rem;
+  opacity:.08;line-height:1;color:var(--rose);
+}
+.agenda-soft h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:.5rem;
+}
+.agenda-soft > p{font-size:.84rem;color:var(--text-mid);margin-bottom:1.5rem;line-height:1.7;}
+.ag-steps{list-style:none;margin-bottom:1.8rem;}
+.ag-step{display:flex;gap:.9rem;align-items:flex-start;margin-bottom:1rem;}
+.ag-dot{
+  width:26px;height:26px;min-width:26px;
+  background:var(--rose);color:white;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:600;
+}
+.ag-txt{font-size:.85rem;color:var(--text-mid);padding-top:.35rem;line-height:1.55;}
+
+/* ══════════════════════════════
+   BENEFITS
+══════════════════════════════ */
+#benefits{background:var(--cream);padding:7rem 3rem;}
+.benefits-wrap{max-width:1140px;margin:0 auto;}
+.benefits-header{text-align:center;margin-bottom:4rem;}
+.benefits-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);font-weight:300;color:var(--text);margin-bottom:.7rem;
+}
+.benefits-header h2 em{font-style:italic;color:var(--rose);}
+.benefits-header p{font-size:.93rem;color:var(--text-mid);max-width:480px;margin:0 auto;line-height:1.75;}
+
+.benefits-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-bottom:2.5rem;}
+.bcard{
+  background:var(--white);border-radius:18px;padding:2rem;
+  display:flex;gap:1.2rem;align-items:flex-start;
+  border:1px solid var(--border);
+  transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+.bcard:hover{border-color:var(--blush);box-shadow:0 8px 30px rgba(201,107,125,.08);transform:translateY(-3px);}
+.bcard-icon{
+  width:50px;height:50px;min-width:50px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;font-size:1.35rem;
+}
+.bi-rose{background:var(--rose-lt);}
+.bi-sage{background:var(--sage-lt);}
+.bi-lav{background:var(--lav-lt);}
+.bi-gold{background:var(--gold-lt);}
+.bcard-text h4{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:.35rem;
+}
+.bcard-text p{font-size:.84rem;color:var(--text-mid);line-height:1.75;}
+
+.stats-strip{
+  background:var(--white);border-radius:20px;padding:2.5rem 3rem;
+  border:1px solid var(--border);
+  display:flex;justify-content:space-around;align-items:center;
+  flex-wrap:wrap;gap:2rem;
+}
+.ss-item{text-align:center;}
+.ss-item strong{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:300;color:var(--rose);line-height:1;margin-bottom:.2rem;
+}
+.ss-item span{font-size:.75rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-lt);}
+.ss-sep{width:1px;height:50px;background:var(--border);}
+
+/* ══════════════════════════════
+   CONTACT
+══════════════════════════════ */
+#contact{background:var(--white);padding:7rem 3rem;}
+.contact-wrap{max-width:900px;margin:0 auto;}
+.contact-header{text-align:center;margin-bottom:3rem;}
+.contact-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2.2rem,4vw,3.4rem);font-weight:300;color:var(--text);margin-bottom:.7rem;
+}
+.contact-header h2 em{font-style:italic;color:var(--rose);}
+.contact-header p{font-size:.93rem;color:var(--text-mid);max-width:420px;margin:0 auto;line-height:1.75;}
+
+/* info row */
+.contact-info-row{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:3rem;
+}
+.ci-card{
+  background:var(--cream);border-radius:14px;padding:1.2rem;
+  text-align:center;border:1px solid var(--border);
+  transition:border-color .2s;
+}
+.ci-card:hover{border-color:var(--blush);}
+.ci-ico{font-size:1.5rem;display:block;margin-bottom:.6rem;}
+.ci-card strong{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--rose);margin-bottom:.2rem;}
+.ci-card span{font-size:.84rem;color:var(--text);font-weight:400;}
+
+.emergency-strip{
+  background:linear-gradient(135deg,var(--rose-deep),var(--rose));
+  border-radius:14px;padding:1.2rem 1.8rem;margin-bottom:3rem;
+  display:flex;align-items:center;gap:1.5rem;
+}
+.es-dot{width:10px;height:10px;background:white;border-radius:50%;animation:blink 1.8s ease-in-out infinite;flex-shrink:0;}
+.es-text{flex:1;}
+.es-text strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:white;font-weight:400;}
+.es-text span{font-size:.82rem;color:rgba(255,255,255,.8);}
+.es-phone{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:white;font-weight:300;white-space:nowrap;}
+
+/* form */
+.contact-form-card{
+  background:var(--cream);border-radius:20px;padding:3rem;
+  border:1px solid var(--border);
+}
+.contact-form-card h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:400;color:var(--text);margin-bottom:1.8rem;text-align:center;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.fg{margin-bottom:1.1rem;}
+.fg label{
+  display:block;font-size:.72rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text-mid);margin-bottom:.4rem;
+}
+.fg input,.fg select,.fg textarea{
+  width:100%;padding:.78rem 1.1rem;
+  border:1px solid var(--border);border-radius:10px;
+  font-family:'Jost',sans-serif;font-size:.9rem;color:var(--text);
+  background:var(--white);outline:none;resize:none;
+  transition:border-color .25s,box-shadow .25s;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{
+  border-color:var(--blush);
+  box-shadow:0 0 0 3px rgba(239,184,196,.2);
+}
+.form-submit-soft{
+  width:100%;background:var(--rose);color:white;border:none;
+  padding:.9rem;border-radius:50px;
+  font-family:'Jost',sans-serif;font-size:.95rem;font-weight:500;
+  letter-spacing:.04em;cursor:pointer;
+  box-shadow:0 6px 20px rgba(201,107,125,.35);
+  transition:background .25s,transform .2s,box-shadow .25s;
+}
+.form-submit-soft:hover{background:var(--rose-deep);transform:translateY(-2px);box-shadow:0 10px 28px rgba(201,107,125,.45);}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+footer{
+  background:var(--text);color:rgba(255,255,255,.65);
+  padding:4rem 3rem 2rem;
+}
+.footer-wrap{
+  max-width:1140px;margin:0 auto;
+  display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;
+  gap:3rem;margin-bottom:3rem;
+}
+.fb-logo{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;}
+.fb-logo-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--blush),var(--rose));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.95rem;}
+.fb-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:white;}
+.fb p{font-size:.84rem;line-height:1.85;max-width:230px;}
+.fb-soc{display:flex;gap:.5rem;margin-top:1.2rem;}
+.fsoc{
+  width:36px;height:36px;border-radius:8px;
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;font-size:.95rem;
+  text-decoration:none;transition:background .2s,border-color .2s;
+}
+.fsoc:hover{background:var(--rose);border-color:var(--rose);}
+.fc h4{font-size:.7rem;text-transform:uppercase;letter-spacing:.14em;color:var(--blush);margin-bottom:1.1rem;font-weight:600;}
+.fc a{display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.85rem;margin-bottom:.5rem;transition:color .2s;}
+.fc a:hover{color:white;}
+.footer-bottom{
+  max-width:1140px;margin:0 auto;
+  padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.78rem;
+}
+.crmv-tag{background:rgba(239,184,196,.12);border:1px solid rgba(239,184,196,.25);color:var(--blush);font-size:.68rem;font-weight:600;letter-spacing:.06em;padding:.22rem .7rem;border-radius:50px;}
+
+/* WA */
+.wa-btn{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:90;
+  width:54px;height:54px;background:#25D366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.55rem;
+  box-shadow:0 6px 28px rgba(37,211,102,.4);text-decoration:none;
+  transition:transform .2s;
+}
+.wa-btn:hover{transform:scale(1.1);}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:960px){
+  nav{padding:0 1.5rem;}
+  .nav-links{display:none;}
+  .hero-float{display:none;}
+  .about-grid,.services-header,.schedule-pair{grid-template-columns:1fr;gap:2rem;}
+  .about-photos-soft{height:300px;}
+  .sp1{width:200px;height:240px;} .sp2{width:170px;height:200px;}
+  .gallery-masonry{grid-template-columns:1fr 1fr;grid-template-rows:200px 200px 200px;}
+  .g-item:nth-child(1),.g-item:nth-child(5){grid-row:auto;grid-column:auto;}
+  .benefits-cards{grid-template-columns:1fr;}
+  .contact-info-row{grid-template-columns:1fr 1fr;}
+  .footer-wrap{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .ss-sep{display:none;}
+  .stats-strip{gap:1.5rem;padding:2rem;}
+  #hero{padding:4rem 1.5rem 2.5rem;}
+  section{padding:4rem 1.5rem!important;}
+  #about,#gallery,#services,#schedule,#benefits,#contact,footer{padding:4rem 1.5rem!important;}
+  .hero-ring,.ring1,.ring2,.ring3{display:none;}
+  .hero-circle{width:230px;height:230px;}
+}
+</style>
+</head>
+<body>
+
+<a href="https://wa.me/5511999999999" class="wa-btn" target="_blank">💬</a>
+
+<!-- ═══ NAV ═══ -->
+<nav id="navbar">
+  <a class="nav-logo" href="#">
+    <div class="logo-mark">🌸</div>
+    <div class="logo-name">
+      Íris
+      <sub>Clínica Veterinária</sub>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">A Clínica</a></li>
+    <li><a href="#gallery">Estrutura</a></li>
+    <li><a href="#services">Procedimentos</a></li>
+    <li><a href="#schedule">Horários</a></li>
+    <li><a href="#benefits">Diferenciais</a></li>
+    <li><span class="nav-emergency-pill"><span class="e-dot"></span> Emergência 24h</span></li>
+    <li><a href="#contact" class="nav-cta">Agendar Consulta</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+
+  <!-- petals -->
+  <span class="petal" style="top:12%;left:6%;animation-duration:6s">🌸</span>
+  <span class="petal" style="top:20%;right:8%;animation-duration:7s;animation-delay:-2s">🌿</span>
+  <span class="petal" style="bottom:30%;left:4%;animation-duration:5s;animation-delay:-1s;font-size:.9rem">✿</span>
+  <span class="petal" style="bottom:20%;right:6%;animation-duration:8s;animation-delay:-3s">🌺</span>
+  <span class="petal" style="top:50%;left:2%;animation-duration:9s;animation-delay:-4s;font-size:.8rem">✦</span>
+  <span class="petal" style="top:35%;right:3%;animation-duration:7.5s;animation-delay:-1.5s;font-size:.8rem">❀</span>
+
+  <div class="hero-eyebrow">✦ Medicina veterinária com delicadeza ✦</div>
+
+  <h1 class="hero-h1">
+    O cuidado que<br>
+    seu pet<br>
+    <em>merece.</em>
+  </h1>
+
+  <p class="hero-p">Diagnóstico preciso, medicina preventiva e tratamentos especializados — com a atenção e a gentileza que cada animal merece.</p>
+
+  <div class="hero-btns">
+    <a href="#contact" class="btn btn-rose">Agendar consulta</a>
+    <a href="#services" class="btn btn-outline-rose">Ver procedimentos →</a>
+  </div>
+
+  <!-- circular photo with rings -->
+  <div class="hero-photo-zone">
+    <div class="hero-ring ring1"></div>
+    <div class="hero-ring ring2"></div>
+    <div class="hero-ring ring3"></div>
+    <div class="hero-circle">
+      <img src="https://images.pexels.com/photos/5731845/pexels-photo-5731845.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veterinária com pet">
+    </div>
+    <div class="hero-float hf1">
+      <div class="hf-icon hf-rose">🌸</div>
+      <div class="hf-text">
+        <strong>Atendimento Humanizado</strong>
+        <span>Equipe certificada CRMV</span>
+      </div>
+    </div>
+    <div class="hero-float hf2">
+      <div class="hf-icon hf-sage">🌿</div>
+      <div class="hf-text">
+        <strong>Medicina Integrativa</strong>
+        <span>Preventivo + especialidades</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <strong>12+</strong>
+      <span>Anos de clínica</span>
+    </div>
+    <div class="stat">
+      <strong>8k+</strong>
+      <span>Pacientes</span>
+    </div>
+    <div class="stat">
+      <strong>24h</strong>
+      <span>Emergências</span>
+    </div>
+    <div class="stat">
+      <strong>98%</strong>
+      <span>Satisfação</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-grid">
+      <div class="about-photos-soft reveal-l">
+        <div class="soft-photo sp1">
+          <img src="https://images.pexels.com/photos/5731840/pexels-photo-5731840.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Veterinária cuidando de um cachorro">
+        </div>
+        <div class="soft-photo sp2">
+          <img src="https://images.pexels.com/photos/2071873/pexels-photo-2071873.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Gato saudável">
+        </div>
+        <div class="about-deco ad1">🌸</div>
+        <div class="about-ribbon">
+          <strong>15</strong>
+          especialistas<br>na equipe
+        </div>
+      </div>
+
+      <div class="reveal-r">
+        <div class="about-text">
+          <div class="eyebrow">✦ A Clínica</div>
+          <h2>Onde a ciência<br>encontra o <em>cuidado.</em></h2>
+          <p>Fundada em 2012, a Íris nasceu do sonho de oferecer medicina veterinária de excelência em um ambiente acolhedor e sereno — porque pets e tutores merecem se sentir bem-vindos desde o primeiro momento.</p>
+          <p>Nossa equipe é formada por veterinárias e veterinários apaixonados, com especializações nas mais diversas áreas da saúde animal. Combinamos tecnologia de ponta com escuta ativa e cuidado genuíno.</p>
+        </div>
+        <div class="team-row">
+          <div class="team-chip">
+            <div class="tc-av">👩‍⚕️</div>
+            <div class="tc-info">
+              <strong>Dra. Carla Mendes</strong>
+              <span>Clínica Geral & Dermatologia</span>
+            </div>
+          </div>
+          <div class="team-chip">
+            <div class="tc-av">👩‍⚕️</div>
+            <div class="tc-info">
+              <strong>Dra. Ana Souza</strong>
+              <span>Cardiologia & Neurologia</span>
+            </div>
+          </div>
+          <div class="team-chip">
+            <div class="tc-av">👨‍⚕️</div>
+            <div class="tc-info">
+              <strong>Dr. Rafael Lima</strong>
+              <span>Cirurgia & Oncologia</span>
+            </div>
+          </div>
+          <div class="team-chip">
+            <div class="tc-av">👨‍⚕️</div>
+            <div class="tc-info">
+              <strong>Dr. Pedro Costa</strong>
+              <span>Ortopedia & Reabilitação</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY ═══ -->
+<section id="gallery">
+  <div class="gallery-wrap">
+    <div class="gallery-header reveal">
+      <div class="eyebrow" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;">
+        <span style="display:block;width:22px;height:1px;background:var(--blush)"></span> Estrutura & Pacientes
+      </div>
+      <h2>Um ambiente pensado<br>para <em>tranquilizar.</em></h2>
+      <p>Espaços projetados para o conforto dos pets e a serenidade dos tutores, com equipamentos modernos e decoração acolhedora.</p>
+    </div>
+    <div class="gallery-masonry">
+      <div class="g-item reveal" style="transition-delay:.05s">
+        <img src="https://images.pexels.com/photos/5731855/pexels-photo-5731855.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Atendimento veterinário" loading="lazy">
+        <div class="g-overlay"><div class="g-caption"><strong>Sala de consulta</strong><span>Atendimento cuidadoso</span></div></div>
+      </div>
+      <div class="g-item reveal" style="transition-delay:.1s">
+        <img src="https://images.pexels.com/photos/1741205/pexels-photo-1741205.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gato saudável" loading="lazy">
+        <div class="g-overlay"><div class="g-caption"><strong>Pacientes felinos</strong><span>Cuidados especializados</span></div></div>
+      </div>
+      <div class="g-item reveal" style="transition-delay:.15s">
+        <img src="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Gatinho" loading="lazy">
+        <div class="g-overlay"><div class="g-caption"><strong>Medicina preventiva</strong><span>Vacinas e check-up</span></div></div>
+      </div>
+      <div class="g-item reveal" style="transition-delay:.08s">
+        <img src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Golden Retriever" loading="lazy">
+        <div class="g-overlay"><div class="g-caption"><strong>Pacientes caninos</strong><span>Da prevenção ao tratamento</span></div></div>
+      </div>
+      <div class="g-item reveal" style="transition-delay:.12s">
+        <img src="https://images.pexels.com/photos/6235233/pexels-photo-6235233.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Consulta veterinária" loading="lazy">
+        <div class="g-overlay"><div class="g-caption"><strong>Equipe especializada</strong><span>15 médicos veterinários</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="services-wrap">
+    <div class="services-header reveal">
+      <div>
+        <div class="eyebrow" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;">
+          <span style="display:block;width:22px;height:1px;background:var(--blush)"></span> Procedimentos
+        </div>
+        <h2>Cuidado completo,<br>do <em>preventivo</em><br>ao especializado.</h2>
+      </div>
+      <div>
+        <p>Oferecemos uma gama completa de procedimentos veterinários, com equipamentos modernos e profissionais altamente qualificados.</p>
+        <a href="#contact" class="btn btn-outline-rose" style="margin-top:1.2rem">Agendar procedimento →</a>
+      </div>
+    </div>
+
+    <div class="svc-list">
+      <div class="svc-row reveal" style="transition-delay:.04s">
+        <div class="svc-ico ic-blush">💉</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-rose">Preventivo</span>
+          <h3>Vacinas & Imunização</h3>
+          <p>Protocolo vacinal completo: V8, V10, raiva, gripe canina, leucemia felina. Carteirinha digital inclusa e alertas por WhatsApp.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">A partir de R$ 60</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.07s">
+        <div class="svc-ico ic-rose">🩺</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-rose">Diagnóstico</span>
+          <h3>Consulta Clínica Geral</h3>
+          <p>Anamnese completa, exame físico detalhado e prescrição personalizada por veterinários especializados e atenciosos.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">A partir de R$ 150</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.1s">
+        <div class="svc-ico ic-lav">🔬</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-lav">Imagem</span>
+          <h3>Raio-X & Ultrassom</h3>
+          <p>Diagnóstico por imagem com equipamentos digitais de última geração. Laudo laudado em até 24h com relatório completo.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">A partir de R$ 180</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.13s">
+        <div class="svc-ico ic-gold">🧪</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-gold">Laboratorial</span>
+          <h3>Exames Laboratoriais</h3>
+          <p>Hemograma, bioquímica, urinálise, culturas e antibiograma. Resultados disponíveis no aplicativo ou por WhatsApp em até 24h.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">A partir de R$ 90</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.16s">
+        <div class="svc-ico ic-sage">⚕️</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-sage">Cirurgia</span>
+          <h3>Cirurgias & Procedimentos</h3>
+          <p>Centro cirúrgico completo com monitoração anestésica multiparamétrica, cirurgia de tecidos moles, ortopedia e laparoscopia.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">Consultar</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.19s">
+        <div class="svc-ico ic-mauve">🌿</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-lav">Preventivo</span>
+          <h3>Vermifugação & Antiparasitários</h3>
+          <p>Controle completo de parasitas internos e externos com os melhores produtos do mercado e protocolo personalizado.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">A partir de R$ 45</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.22s">
+        <div class="svc-ico ic-rose">❤️</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-lav">Especialidade</span>
+          <h3>Cardiologia, Neurologia & Especialidades</h3>
+          <p>Ecocardiografia, dermatologia, oftalmologia e oncologia com especialistas certificados e equipamentos de referência.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">Consultar</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.25s">
+        <div class="svc-ico ic-teal">🏥</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-sage">Internação</span>
+          <h3>UTI & Internação</h3>
+          <p>Unidade de terapia intensiva com monitoramento contínuo, enfermagem 24h e atualizações regulares ao tutor via app.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">A partir de R$ 220/dia</span>
+        </div>
+      </div>
+      <div class="svc-row reveal" style="transition-delay:.28s">
+        <div class="svc-ico ic-cream">🚨</div>
+        <div class="svc-content">
+          <span class="svc-tag tag-red">Emergência</span>
+          <h3>Emergências 24h</h3>
+          <p>Plantão 24 horas, todos os dias. Equipe de pronto-atendimento com UTI veterinária, sempre pronta para o seu pet.</p>
+        </div>
+        <div class="svc-right">
+          <span class="svc-price">Plantão ativo</span>
+          <span class="svc-badge">24h</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SCHEDULE ═══ -->
+<section id="schedule">
+  <div class="schedule-wrap">
+    <div class="schedule-header reveal">
+      <div class="eyebrow" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;">
+        <span style="display:block;width:22px;height:1px;background:var(--blush)"></span> Horários & Agenda
+      </div>
+      <h2>Aqui quando você <em>precisar.</em></h2>
+      <p>Atendimento agendado para maior conforto e plantão 24h para emergências. Agende pelo app, WhatsApp ou telefone.</p>
+    </div>
+    <div class="schedule-pair">
+      <div class="hours-soft reveal-l">
+        <h3>🕐 Funcionamento</h3>
+        <p>Atendimentos com hora marcada para evitar esperas.</p>
+        <ul class="hour-list">
+          <li class="h-row">
+            <span class="h-day"><span class="h-dot open-dot"></span>Segunda a Sexta</span>
+            <span class="h-time ht-open">08h00 – 20h00</span>
+          </li>
+          <li class="h-row">
+            <span class="h-day"><span class="h-dot open-dot"></span>Sábado</span>
+            <span class="h-time ht-open">08h00 – 18h00</span>
+          </li>
+          <li class="h-row">
+            <span class="h-day"><span class="h-dot part-dot"></span>Domingo</span>
+            <span class="h-time ht-part">09h00 – 14h00</span>
+          </li>
+          <li class="h-row">
+            <span class="h-day"><span class="h-dot part-dot"></span>Feriados</span>
+            <span class="h-time ht-part">Emergências</span>
+          </li>
+          <li class="h-row">
+            <span class="h-day"><span class="h-dot open-dot"></span>Emergências</span>
+            <span class="h-time ht-24">24h / 7 dias</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="agenda-soft reveal-r">
+        <h3>🌸 Como agendar</h3>
+        <p>Marque sua consulta em poucos passos — de forma simples e sem complicações.</p>
+        <ul class="ag-steps">
+          <li class="ag-step">
+            <span class="ag-dot">1</span>
+            <span class="ag-txt">Escolha o tipo de atendimento: preventivo, especialidade ou emergência.</span>
+          </li>
+          <li class="ag-step">
+            <span class="ag-dot">2</span>
+            <span class="ag-txt">Selecione a data e horário disponíveis no sistema online.</span>
+          </li>
+          <li class="ag-step">
+            <span class="ag-dot">3</span>
+            <span class="ag-txt">Receba a confirmação e lembrete 1h antes pelo WhatsApp.</span>
+          </li>
+        </ul>
+        <a href="#contact" class="btn btn-rose">Agendar agora →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS ═══ -->
+<section id="benefits">
+  <div class="benefits-wrap">
+    <div class="benefits-header reveal">
+      <div class="eyebrow" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;">
+        <span style="display:block;width:22px;height:1px;background:var(--blush)"></span> Nossos Diferenciais
+      </div>
+      <h2>Por que escolher<br>a <em>Íris.</em></h2>
+      <p>Mais do que uma clínica — um centro médico veterinário completo, com tecnologia, carinho e profissionais apaixonados pelo que fazem.</p>
+    </div>
+    <div class="benefits-cards">
+      <div class="bcard reveal" style="transition-delay:.05s">
+        <div class="bcard-icon bi-rose">🔬</div>
+        <div class="bcard-text">
+          <h4>Tecnologia de Diagnóstico</h4>
+          <p>Raio-X digital, ultrassom, endoscopia e laboratório próprio com resultados rápidos e laudos detalhados.</p>
+        </div>
+      </div>
+      <div class="bcard reveal" style="transition-delay:.1s">
+        <div class="bcard-icon bi-sage">🎓</div>
+        <div class="bcard-text">
+          <h4>Equipe com Especialização</h4>
+          <p>15 veterinários com pós-graduação em áreas distintas, todos registrados no CRMV e em constante atualização.</p>
+        </div>
+      </div>
+      <div class="bcard reveal" style="transition-delay:.08s">
+        <div class="bcard-icon bi-lav">📱</div>
+        <div class="bcard-text">
+          <h4>Prontuário Digital</h4>
+          <p>Histórico completo do seu pet no app — vacinas, exames, prescrições e consultas em um só lugar, acessível 24h.</p>
+        </div>
+      </div>
+      <div class="bcard reveal" style="transition-delay:.12s">
+        <div class="bcard-icon bi-gold">🏥</div>
+        <div class="bcard-text">
+          <h4>UTI Veterinária Completa</h4>
+          <p>Monitoramento contínuo, enfermagem especializada e atualização em tempo real para total tranquilidade do tutor.</p>
+        </div>
+      </div>
+    </div>
+    <div class="stats-strip reveal">
+      <div class="ss-item">
+        <strong>CRMV</strong>
+        <span>Certificação oficial</span>
+      </div>
+      <div class="ss-sep"></div>
+      <div class="ss-item">
+        <strong>&lt;15min</strong>
+        <span>Triagem em emergência</span>
+      </div>
+      <div class="ss-sep"></div>
+      <div class="ss-item">
+        <strong>100%</strong>
+        <span>Dados protegidos (LGPD)</span>
+      </div>
+      <div class="ss-sep"></div>
+      <div class="ss-item">
+        <strong>Farmácia</strong>
+        <span>Veterinária própria</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-header reveal">
+      <div class="eyebrow" style="display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--rose);margin-bottom:1rem;">
+        <span style="display:block;width:22px;height:1px;background:var(--blush)"></span> Contato & Agendamento
+      </div>
+      <h2>Cuide da saúde do<br>seu pet <em>com carinho.</em></h2>
+      <p>Agende uma consulta ou tire dúvidas. Nossa equipe responde em até 2h em horário comercial.</p>
+    </div>
+
+    <div class="contact-info-row reveal">
+      <div class="ci-card">
+        <span class="ci-ico">📍</span>
+        <strong>Endereço</strong>
+        <span>Av. das Flores, 321 — Jardins, SP</span>
+      </div>
+      <div class="ci-card">
+        <span class="ci-ico">📞</span>
+        <strong>Telefone</strong>
+        <span>(11) 3333-8888</span>
+      </div>
+      <div class="ci-card">
+        <span class="ci-ico">📧</span>
+        <strong>E-mail</strong>
+        <span>oi@clinicairis.com.br</span>
+      </div>
+      <div class="ci-card">
+        <span class="ci-ico">💬</span>
+        <strong>WhatsApp</strong>
+        <span>(11) 99999-9999</span>
+      </div>
+    </div>
+
+    <div class="emergency-strip reveal">
+      <div class="es-dot"></div>
+      <div class="es-text">
+        <strong>Plantão de emergências — disponível agora</strong>
+        <span>Para casos urgentes, venha diretamente ou ligue. Nossa equipe está sempre pronta.</span>
+      </div>
+      <span class="es-phone">📞 (11) 3333-9999</span>
+    </div>
+
+    <div class="contact-form-card reveal">
+      <h3>Agendar Consulta 🌸</h3>
+      <div class="form-row">
+        <div class="fg">
+          <label>Nome do tutor</label>
+          <input type="text" placeholder="Maria Silva">
+        </div>
+        <div class="fg">
+          <label>Telefone / WhatsApp</label>
+          <input type="tel" placeholder="(11) 99999-9999">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="fg">
+          <label>Nome do paciente</label>
+          <input type="text" placeholder="Mel">
+        </div>
+        <div class="fg">
+          <label>Espécie</label>
+          <select>
+            <option value="">Selecione...</option>
+            <option>Cão</option>
+            <option>Gato</option>
+            <option>Ave</option>
+            <option>Coelho</option>
+            <option>Réptil</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="fg">
+        <label>Tipo de atendimento</label>
+        <select>
+          <option value="">Selecione o procedimento...</option>
+          <option>Consulta Clínica Geral</option>
+          <option>Vacinas & Imunização</option>
+          <option>Exames Laboratoriais</option>
+          <option>Raio-X / Ultrassom</option>
+          <option>Cirurgia</option>
+          <option>Cardiologia</option>
+          <option>Dermatologia</option>
+          <option>Oncologia</option>
+          <option>Ortopedia</option>
+          <option>UTI / Internação</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label>Motivo da consulta</label>
+        <textarea rows="3" placeholder="Descreva brevemente os sintomas ou motivo da visita..."></textarea>
+      </div>
+      <button class="form-submit-soft" onclick="this.textContent='✅ Solicitação enviada! Entraremos em contato em breve.';this.style.background='var(--sage)'">
+        Solicitar agendamento →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-wrap">
+    <div class="fb">
+      <div class="fb-logo">
+        <div class="fb-logo-mark">🌸</div>
+        <div class="fb-logo-name">Íris</div>
+      </div>
+      <p>Medicina veterinária com excelência, delicadeza e amor genuíno pelos animais — desde 2012.</p>
+      <div class="fb-soc">
+        <a class="fsoc" href="#">📸</a>
+        <a class="fsoc" href="#">👍</a>
+        <a class="fsoc" href="#">💬</a>
+        <a class="fsoc" href="#">▶️</a>
+      </div>
+    </div>
+    <div class="fc">
+      <h4>Procedimentos</h4>
+      <a href="#">💉 Vacinas</a>
+      <a href="#">🩺 Consulta Geral</a>
+      <a href="#">🔬 Imagem</a>
+      <a href="#">🧪 Exames Lab</a>
+      <a href="#">⚕️ Cirurgias</a>
+      <a href="#">🚨 Emergências 24h</a>
+    </div>
+    <div class="fc">
+      <h4>A Clínica</h4>
+      <a href="#about">Nossa história</a>
+      <a href="#gallery">Estrutura</a>
+      <a href="#services">Procedimentos</a>
+      <a href="#schedule">Horários</a>
+      <a href="#benefits">Diferenciais</a>
+      <a href="#contact">Agendamento</a>
+    </div>
+    <div class="fc">
+      <h4>Contato</h4>
+      <a href="#">📞 (11) 3333-8888</a>
+      <a href="#">🚨 (11) 3333-9999 (24h)</a>
+      <a href="#">📧 oi@clinicairis.com.br</a>
+      <a href="#">📍 Jardins, São Paulo</a>
+      <a href="#">Seg–Sex: 08h–20h</a>
+      <a href="#">Sáb: 08h–18h</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Íris Clínica Veterinária. Todos os direitos reservados.</span>
+    <div style="display:flex;align-items:center;gap:.6rem;">
+      <span class="crmv-tag">CRMV-SP 12.345</span>
+      <span>Medicina veterinária responsável</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// REVEAL
+const all = document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.fade');
+const io = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('on'); }), {threshold:.1});
+all.forEach(el => io.observe(el));
+
+// NAV scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Nav active
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a[href^="#"]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  secs.forEach(s => { if(window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  links.forEach(a => {
+    const active = a.getAttribute('href') === '#' + cur;
+    a.style.color = active ? 'var(--rose)' : '';
+    a.style.background = active ? 'var(--rose-lt)' : '';
+  });
+});
+</script>
+</body>
+</html>
